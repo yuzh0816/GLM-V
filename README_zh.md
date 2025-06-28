@@ -6,7 +6,7 @@
 <img src=resources/logo.svg width="40%"/>
 </div>
 <p align="center">
-    👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">微信</a> 
+    👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">微信</a> 和 <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a> 社区。
     <br>
     💡 在线体验 <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> 
     <br>
@@ -17,7 +17,7 @@
 
 ## 模型介绍
 
-基于[GLM-4-9B-0414](https://github.com/THUDM/GLM-4) 基座模型，我们推出新版VLM开源模型**GLM-4.1V-Thinking**
+基于 [GLM-4-9B-0414](https://github.com/THUDM/GLM-4) 基座模型，我们推出新版VLM开源模型**GLM-4.1V-Thinking**
 ，探索推理模型在视觉语言模型的多个领域中的上限。与上一代的 CogVLM2 及 GLM-4V 系列模型相比，**GLM-4.1V-Thinking** 有如下改进：
 
 1. 系列中首个推理模型，不仅仅停留在数学领域，在多个子领域均达到世界前列的水平。
@@ -34,22 +34,37 @@
 | GLM-4.1V-9B-Thinking | [🤗Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking)<br> [🧩 Modelers](https://modelers.cn/models/zhipuai/GLM-4.1V-9B-Thinking) | 推理模型 |
 | GLM-4.1V-9B-Base     | [🤗Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base)<br> [🧩 Modelers](https://modelers.cn/models/zhipuai/GLM-4.1V-9B-Base)             | 基座模型 |
 
+模型算法代码可以查看 [transformers](https://github.com/huggingface/transformers/tree/main/src/transformers/models/glm4v)
+的完整实现。
+
 ### 运行要求
 
 #### 推理
 
 | 设备          | 框架           | 最低显存占用 | 速度                 | 精度   |
 |-------------|--------------|--------|--------------------|------|
-| NVIDIA A100 | transformers | 28GB   | 14 - 22 Tokens / s | BF16 |
-| NVIDIA A100 | vLLM         | 28GB   | 38 - 60 Tokens / s | BF16 |
+| NVIDIA A100 | transformers | 22GB   | 14 - 22 Tokens / s | BF16 |
+| NVIDIA A100 | vLLM         | 25GB   | 38 - 60 Tokens / s | BF16 |
 
 #### 微调
+
+
+| 设备          | 策略         | 最低显存占用 | Batch Size | 精度   | 冻结情况   | 
+|-------------|------------|--------|------------|------|--------|
+| NVIDIA A100 | LORA       | 21GB   | 1          | BF16 | 冻结 VIT | 
+| NVIDIA A100 | FULL ZERO2 | 280GB  | 1          | BF16 | 冻结 VIT | 
+| NVIDIA A100 | FULL ZERO3 | 192GB  | 1          | BF16 | 冻结 VIT | 
+| NVIDIA A100 | FULL ZERO2 | 304GB  | 1          | BF16 | 不冻结    | 
+| NVIDIA A100 | FULL ZERO3 | 210GB  | 1          | BF16 | 不冻结    | 
+
+
+> 使用 Zero2 微调可能出现 Loss 为 0 的情况，建议使用 Zero3 进行微调。
 
 ## 榜单信息
 
 ## 模型推理
 
-模型推理代码均在 `inference` 中，包含了:
+模型推理代码均在 `inference` 文件夹中，包含了:
 
 + `trans_infer_cli.py`: 使用`transformers`库作为推理后端的命令行交互脚本。你可以使用它进行连续对话。
 + `trans_infer_gradio.py`: 使用`transformers`库作为推理后段的 Gradio 界面脚本，搭建一个可以直接使用的 Web
@@ -95,7 +110,7 @@ vllm serve THUDM/GLM-4.1V-9B-Thinking  --allowed-local-media-path /
       "mllm_demo_data/1.jpg",
       "mllm_demo_data/2.jpg"
     ]
-  },
+  }
 ]
 ```
 
