@@ -21,9 +21,10 @@ Notes:
 """
 
 import argparse
-import torch
-from transformers import Glm4vForConditionalGeneration, AutoProcessor
 import re
+
+import torch
+from transformers import AutoProcessor, Glm4vForConditionalGeneration
 
 
 def build_content(image_paths, video_path, text):
@@ -39,7 +40,9 @@ def build_content(image_paths, video_path, text):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_path", type=str, default="/model/glm-4v-9b-0529")
+    parser.add_argument("--model_path",
+                        type=str,
+                        default="/model/glm-4v-9b-0529")
     parser.add_argument("--image_paths", type=str, nargs="*", default=None)
     parser.add_argument("--video_path", type=str, default=None)
     parser.add_argument("--max_tokens", type=int, default=8192)
@@ -50,8 +53,7 @@ def main():
     args = parser.parse_args()
     processor = AutoProcessor.from_pretrained(args.model_path, use_fast=True)
     model = Glm4vForConditionalGeneration.from_pretrained(
-        args.model_path, torch_dtype=torch.bfloat16, device_map="cuda:0"
-    )
+        args.model_path, torch_dtype=torch.bfloat16, device_map="cuda:0")
     messages = []
     first_turn = True
     if args.image_paths is not None and args.video_path is not None:
@@ -64,14 +66,18 @@ def main():
         if question.lower() == "exit":
             break
         if first_turn:
-            content = build_content(args.image_paths, args.video_path, question)
+            content = build_content(args.image_paths, args.video_path,
+                                    question)
             first_turn = False
         else:
             content = [{"type": "text", "text": question}]
         messages.append({"role": "user", "content": content})
-        inputs = processor.apply_chat_template(
-            messages, tokenize=True, add_generation_prompt=True, return_dict=True, return_tensors="pt", padding=True
-        ).to(model.device)
+        inputs = processor.apply_chat_template(messages,
+                                               tokenize=True,
+                                               add_generation_prompt=True,
+                                               return_dict=True,
+                                               return_tensors="pt",
+                                               padding=True).to(model.device)
         output = model.generate(
             **inputs,
             max_new_tokens=args.max_tokens,
@@ -80,10 +86,17 @@ def main():
             top_k=args.top_k,
             temperature=args.temperature if args.temperature > 0 else None,
         )
-        raw = processor.decode(output[0][inputs["input_ids"].shape[1] : -1], skip_special_tokens=False)
+        raw = processor.decode(output[0][inputs["input_ids"].shape[1]:-1],
+                               skip_special_tokens=False)
         match = re.search(r"<answer>(.*?)</answer>", raw, re.DOTALL)
         answer = match.group(1).strip() if match else ""
-        messages.append({"role": "assistant", "content": [{"type": "text", "text": answer}]})
+        messages.append({
+            "role": "assistant",
+            "content": [{
+                "type": "text",
+                "text": answer
+            }]
+        })
         print(f"Assistant: {raw}")
 
 

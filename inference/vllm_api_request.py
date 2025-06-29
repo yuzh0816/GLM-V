@@ -21,6 +21,7 @@ Note: Only one media file (video OR image) can be processed per request.
 
 import argparse
 import os
+
 from openai import OpenAI
 
 
@@ -58,12 +59,16 @@ def main():
     args = parser.parse_args()
     media_type = get_media_type(args.media_path)
     client = OpenAI(api_key=args.api_key, base_url=args.base_url)
-    messages = [
-        {
-            "role": "user",
-            "content": [create_content_item(args.media_path, media_type), {"type": "text", "text": args.text}],
-        }
-    ]
+    messages = [{
+        "role":
+        "user",
+        "content": [
+            create_content_item(args.media_path, media_type), {
+                "type": "text",
+                "text": args.text
+            }
+        ],
+    }]
     print("=========Messages=========")
     print(messages)
     response = client.chat.completions.create(

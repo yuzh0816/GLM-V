@@ -1,27 +1,32 @@
-import gradio as gr
-import torch
-from transformers import AutoProcessor, Glm4vForConditionalGeneration, TextIteratorStreamer
-from pathlib import Path
-import threading
-import re
 import argparse
 import copy
-import spaces
-import tempfile
-import subprocess
 import os
+import re
+import subprocess
+import tempfile
+import threading
+from pathlib import Path
+
 import fitz
+import gradio as gr
+import spaces
+import torch
+from transformers import (AutoProcessor, Glm4vForConditionalGeneration,
+                          TextIteratorStreamer)
 
 MODEL_PATH = "/model/glm-4v-9b-0529"
 
 
 class GLM4VModel:
+
     def __init__(self):
         self.processor = None
         self.model = None
 
     def load(self):
-        self.processor = AutoProcessor.from_pretrained(MODEL_PATH, use_fast=True, disable_grouping=False)
+        self.processor = AutoProcessor.from_pretrained(MODEL_PATH,
+                                                       use_fast=True,
+                                                       disable_grouping=False)
         self.model = Glm4vForConditionalGeneration.from_pretrained(
             MODEL_PATH,
             torch_dtype=torch.bfloat16,
@@ -40,7 +45,8 @@ class GLM4VModel:
         imgs = []
         for i in range(doc.page_count):
             pix = doc.load_page(i).get_pixmap(dpi=180)
-            img_p = os.path.join(tempfile.gettempdir(), f"{Path(pdf_path).stem}_{i}.png")
+            img_p = os.path.join(tempfile.gettempdir(),
+                                 f"{Path(pdf_path).stem}_{i}.png")
             pix.save(img_p)
             imgs.append(img_p)
         doc.close()
@@ -48,7 +54,11 @@ class GLM4VModel:
 
     def _ppt_to_imgs(self, ppt_path):
         tmp = tempfile.mkdtemp()
-        subprocess.run(["libreoffice", "--headless", "--convert-to", "pdf", "--outdir", tmp, ppt_path], check=True)
+        subprocess.run([
+            "libreoffice", "--headless", "--convert-to", "pdf", "--outdir",
+            tmp, ppt_path
+        ],
+                       check=True)
         pdf_path = os.path.join(tmp, Path(ppt_path).stem + ".pdf")
         return self._pdf_to_imgs(pdf_path)
 
@@ -56,9 +66,14 @@ class GLM4VModel:
         out = []
         for f in media or []:
             ext = Path(f.name).suffix.lower()
-            if ext in [".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm", ".mpeg", ".m4v"]:
+            if ext in [
+                    ".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm",
+                    ".mpeg", ".m4v"
+            ]:
                 out.append({"type": "video", "url": f.name})
-            elif ext in [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"]:
+            elif ext in [
+                    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"
+            ]:
                 out.append({"type": "image", "url": f.name})
             elif ext in [".ppt", ".pptx"]:
                 for p in self._ppt_to_imgs(f.name):
@@ -117,25 +132,47 @@ class GLM4VModel:
     def _build_messages(self, hist, sys_prompt):
         msgs = []
         if sys_prompt.strip():
-            msgs.append({"role": "system", "content": [{"type": "text", "text": sys_prompt.strip()}]})
+            msgs.append({
+                "role":
+                "system",
+                "content": [{
+                    "type": "text",
+                    "text": sys_prompt.strip()
+                }]
+            })
         for h in hist:
             if h["role"] == "user":
-                payload = h.get("file_info") or self._wrap_text(self._strip_html(h["content"]))
+                payload = h.get("file_info") or self._wrap_text(
+                    self._strip_html(h["content"]))
                 msgs.append({"role": "user", "content": payload})
             else:
-                raw = re.sub(r"<think>.*?</think>", "", h["content"], flags=re.DOTALL)
-                raw = re.sub(r"<details.*?</details>", "", raw, flags=re.DOTALL)
-                msgs.append({"role": "assistant", "content": self._wrap_text(self._strip_html(raw))})
+                raw = re.sub(r"<think>.*?</think>",
+                             "",
+                             h["content"],
+                             flags=re.DOTALL)
+                raw = re.sub(r"<details.*?</details>",
+                             "",
+                             raw,
+                             flags=re.DOTALL)
+                msgs.append({
+                    "role": "assistant",
+                    "content": self._wrap_text(self._strip_html(raw))
+                })
         print(msgs)
         return msgs
 
     @spaces.GPU(duration=240)
     def stream_generate(self, hist, sys_prompt):
         msgs = self._build_messages(hist, sys_prompt)
-        inputs = self.processor.apply_chat_template(
-            msgs, tokenize=True, add_generation_prompt=True, return_dict=True, return_tensors="pt"
-        ).to(self.model.device)
-        streamer = TextIteratorStreamer(self.processor.tokenizer, skip_prompt=True, skip_special_tokens=False)
+        inputs = self.processor.apply_chat_template(msgs,
+                                                    tokenize=True,
+                                                    add_generation_prompt=True,
+                                                    return_dict=True,
+                                                    return_tensors="pt").to(
+                                                        self.model.device)
+        streamer = TextIteratorStreamer(self.processor.tokenizer,
+                                        skip_prompt=True,
+                                        skip_special_tokens=False)
         gen_args = dict(
             inputs,
             max_new_tokens=32000,
@@ -162,9 +199,14 @@ def check_files(files):
     vids = imgs = ppts = pdfs = 0
     for f in files or []:
         ext = Path(f.name).suffix.lower()
-        if ext in [".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm", ".mpeg", ".m4v"]:
+        if ext in [
+                ".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv", ".webm",
+                ".mpeg", ".m4v"
+        ]:
             vids += 1
-        elif ext in [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"]:
+        elif ext in [
+                ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"
+        ]:
             imgs += 1
         elif ext in [".ppt", ".pptx"]:
             ppts += 1
@@ -213,24 +255,36 @@ css = """.chatbot-container .message-wrap .message{font-size:14px!important}
 details summary{cursor:pointer;font-weight:bold}
 details[open] summary{margin-bottom:10px}"""
 
-demo = gr.Blocks(title="GLM-4.1V-9B-Thinking Chat", theme=gr.themes.Soft(), css=css)
+demo = gr.Blocks(title="GLM-4.1V-9B-Thinking Chat",
+                 theme=gr.themes.Soft(),
+                 css=css)
 with demo:
     gr.Markdown(
         "<div style='text-align:center;font-size:32px;font-weight:bold;margin-bottom:20px;'>GLM-4.1V-9B Thinking Chat</div><div style='text-align:center;'><a href='https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking'>Model Hub</a> | <a href='https://github.com/THUDM/CogVLM'>Github</a></div>"
     )
     with gr.Row():
         with gr.Column(scale=7):
-            chatbox = gr.Chatbot(label="Chat", type="messages", height=600, elem_classes="chatbot-container")
+            chatbox = gr.Chatbot(label="Chat",
+                                 type="messages",
+                                 height=600,
+                                 elem_classes="chatbot-container")
             textbox = gr.Textbox(label="Message", lines=3)
             with gr.Row():
                 send = gr.Button("Send", variant="primary")
                 clear = gr.Button("Clear")
         with gr.Column(scale=3):
-            up = gr.File(label="Upload Files", file_count="multiple", file_types=["file"], type="filepath")
+            up = gr.File(label="Upload Files",
+                         file_count="multiple",
+                         file_types=["file"],
+                         type="filepath")
             gr.Markdown("Supports images / videos / PPT / PDF")
             sys = gr.Textbox(label="System Prompt", lines=6)
-    send.click(chat, inputs=[up, textbox, chatbox, sys], outputs=[chatbox, up, textbox])
-    textbox.submit(chat, inputs=[up, textbox, chatbox, sys], outputs=[chatbox, up, textbox])
+    send.click(chat,
+               inputs=[up, textbox, chatbox, sys],
+               outputs=[chatbox, up, textbox])
+    textbox.submit(chat,
+                   inputs=[up, textbox, chatbox, sys],
+                   outputs=[chatbox, up, textbox])
     clear.click(reset, outputs=[chatbox, up, textbox])
 
 if __name__ == "__main__":
