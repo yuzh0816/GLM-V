@@ -6,7 +6,7 @@ reasoning outputs such as `<think>...</think><answer>...</answer>`.
 Core features:
 - Automatically detects whether the model output includes a complete reasoning block.
 - If the model reaches the `first_max_tokens` limit without emitting `</think>` or `<answer>`,
-  it forcefully appends `</think>\n<answer>` and re-generates to ensure complete output.
+  it forcefully appends `</think><answer>` and re-generates to ensure complete output.
 - Accepts video input via `video_url`, pointing to a local video file to simulate real multi-modal inputs.
 - Designed for the Hugging Face `transformers` inference pipeline. If using `vLLM`, similar logic must be adapted manually
   to support forced continuation and special token handling across generation rounds.
@@ -211,8 +211,8 @@ if __name__ == "__main__":
             "role": "user",
             "content": [
                 {
-                    "type": "video_url",
-                    "video_url": {"url": f"file://{args.video_path}"},
+                    "type": "video",
+                    "url": args.video_path,
                 },
                 {
                     "type": "text",
