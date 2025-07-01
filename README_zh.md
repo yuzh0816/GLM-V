@@ -68,7 +68,7 @@
 GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机制，在回答准确性、内容丰富度与可解释性方面，
 全面超越传统的非推理式视觉模型，在28项评测任务中有23项达到10B级别模型最佳，18项任务持平甚至超过8倍参数量的Qwen-2.5-VL-72B。
 
-![bench](resources/bench.jpeg)
+![bench](resources/bench.png)
 
 ## 模型推理
 
