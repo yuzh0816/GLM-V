@@ -8,8 +8,8 @@
 <p align="center">
     👋 Join our <a href="resources/WECHAT.md" target="_blank">Wechat</a> or <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a>
     <br>
-    💡 Try <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> online demo.
-    <br>
+    💡 Try the <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">Hugging Face</a> or <a href="https://modelscope.cn/studios/ZhipuAI/GLM-4.1V-9B-Thinking-Demo" target="_blank">ModelScope</a> online demo for GLM-4.1V-9B-Thinking.
+<br>
     📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">Zhipu Foundation Model Open Platform</a>
 </p>
 
@@ -76,10 +76,13 @@ toolkit.
 
 ## Benchmark Performance
 
-By incorporating the Chain-of-Thought reasoning paradigm, GLM-4.1V-9B-Thinking significantly improves answer accuracy,
-richness, and interpretability. It comprehensively surpasses traditional non-reasoning visual models.
-Out of 28 benchmark tasks, it achieved the best performance among 10B-level models on 23 tasks,
-and even outperformed the 72B-parameter Qwen-2.5-VL-72B on 18 tasks.
+Based on the [GLM-4-9B-0414](https://github.com/THUDM/GLM-4) foundation model, we present the new open-source VLM model
+**GLM-4.1V-9B-Thinking**, which introduces a "thinking" paradigm and leverages Reinforcement Learning with Curriculum
+Sampling (RLCS) to comprehensively enhance model capabilities.
+It achieves state-of-the-art performance among vision-language models at the 10B parameter scale, matching or even
+surpassing the 72B Qwen-2.5-VL on 18 benchmark tasks.
+We also open-source the base model **GLM-4.1V-9B-Base** to support further research on the frontier of vision-language
+models.
 
 ![bench](resources/bench.jpeg)
 

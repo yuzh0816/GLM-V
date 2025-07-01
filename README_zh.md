@@ -8,7 +8,7 @@
 <p align="center">
     👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">微信</a> 和 <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a> 社区。
     <br>
-    💡 在线体验 <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Demo" target="_blank">GLM-4.1V-9B-Thinking</a>。
+    💡 立即在线体验 <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">Hugging Face</a> 或 <a href="https://modelscope.cn/studios/ZhipuAI/GLM-4.1V-9B-Thinking-Demo" target="_blank">ModelScope</a> 上的 GLM-4.1V-9B-Thinking。
     <br>
     📍 在 <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">智谱大模型开放平台</a> 使用 GLM-4.1V-9B-Thinking 的API服务。
 </p>
@@ -19,9 +19,9 @@
 逐渐增强复杂任务中的推理能力，提升自身的准确性、全面性和智能化程度，使得复杂问题解决、长上下文理解、多模态智能体等智能任务成为可能。
 
 基于 [GLM-4-9B-0414](https://github.com/THUDM/GLM-4) 基座模型，我们推出新版VLM开源模型 **GLM-4.1V-9B-Thinking**
-，探索推理模型在视觉语言模型的多个领域中的上限。 引入思考范式，通过强化学习全面提升模型能力，
-达到10B参数级别的视觉语言模型的最强性能，在18个榜单任务中持平甚至超过8倍参数量的Qwen-2.5-VL-72B。
-我们同步开源基座模型 GLM-4.1V-9B-Base，希望能够帮助更多研究者探索视觉语言模型的能力边界。
+，引入思考范式，通过课程采样强化学习 RLCS（Reinforcement Learning with Curriculum Sampling）全面提升模型能力，
+达到 10B 参数级别的视觉语言模型的最强性能，在18个榜单任务中持平甚至超过8倍参数量的 Qwen-2.5-VL-72B。
+我们同步开源基座模型 **GLM-4.1V-9B-Base**，希望能够帮助更多研究者探索视觉语言模型的能力边界。
 
 ![rl](resources/rl.jpeg)
 
