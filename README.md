@@ -8,7 +8,7 @@
 <p align="center">
     👋 Join our <a href="resources/WECHAT.md" target="_blank">Wechat</a> or <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a>
     <br>
-    💡 Try <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> online demo.
+    💡 Try <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> online demo.
     <br>
     📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">Zhipu Foundation Model Open Platform</a>
 </p>
@@ -24,10 +24,12 @@ Based on the [GLM-4-9B-0414](https://github.com/THUDM/GLM-4) foundation model, w
 **GLM-4.1V-9B-Thinking**, designed to explore the upper limits of reasoning in vision-language models. By introducing
 a "thinking paradigm" and leveraging reinforcement learning, the model significantly enhances its capabilities. It
 achieves state-of-the-art performance among 10B-parameter VLMs, matching or even surpassing the 72B-parameter
-Qwen-2.5-VL-72B on 18 benchmark tasks.
+Qwen-2.5-VL-72B on 18 benchmark tasks. We are also open-sourcing the base model GLM-4.1V-9B-Base to
+support further research into the boundaries of VLM capabilities.
 
-We are also open-sourcing the base model GLM-4.1V-9B-Base to support further research into the boundaries of VLM
-capabilities. Compared to the previous generation models CogVLM2 and the GLM-4V series, **GLM-4.1V-Thinking** offers the
+![rl](resources/rl.jpeg)
+
+Compared to the previous generation models CogVLM2 and the GLM-4V series, **GLM-4.1V-Thinking** offers the
 following improvements:
 
 1. The first reasoning-focused model in the series, achieving world-leading performance not only in mathematics but also
@@ -75,13 +77,11 @@ toolkit.
 ## Benchmark Performance
 
 By incorporating the Chain-of-Thought reasoning paradigm, GLM-4.1V-9B-Thinking significantly improves answer accuracy,
-richness, and interpretability. It surpasses traditional non-reasoning visual models across the board, achieving top
-10B-level performance in 23 out of 28 benchmark tasks — and even matches or outperforms the 72B-parameter
-Qwen-2.5-VL-72B in 18 tasks.
+richness, and interpretability. It comprehensively surpasses traditional non-reasoning visual models.
+Out of 28 benchmark tasks, it achieved the best performance among 10B-level models on 23 tasks,
+and even outperformed the 72B-parameter Qwen-2.5-VL-72B on 18 tasks.
 
-![bench](resources/bench.png)
-
-## Model Inference
+![bench](resources/bench.jpeg)
 
 ## Model Inference
 
