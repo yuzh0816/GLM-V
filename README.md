@@ -10,7 +10,7 @@
     <br>
     💡 Try <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> online demo.
     <br>
-    📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">智谱大模型开放平台</a>
+    📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">Zhipu Foundation Model Open Platform</a>
 </p>
 
 ## Model Introduction
