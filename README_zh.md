@@ -8,7 +8,7 @@
 <p align="center">
     👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">微信</a> 和 <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a> 社区。
     <br>
-    💡 在线体验 <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">GLM-4.1V-9B-Thinking</a> 
+    💡 在线体验 <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">GLM-4.1V-9B-Thinking</a>
     <br>
     📍 在 <a href="https://open.bigmodel.cn/?utm_campaign=open&_channel_track_key=OWTVNma9">开放平台</a> 使用 GLM-4.1V-9B-Thinking 的 API服务。
 </p>
@@ -48,15 +48,13 @@
 
 #### 微调
 
-
-| 设备          | 策略         | 最低显存占用 | Batch Size | 精度   | 冻结情况   | 
+| 设备          | 策略         | 最低显存占用 | Batch Size | 精度   | 冻结情况   |
 |-------------|------------|--------|------------|------|--------|
-| NVIDIA A100 | LORA       | 21GB   | 1          | BF16 | 冻结 VIT | 
-| NVIDIA A100 | FULL ZERO2 | 280GB  | 1          | BF16 | 冻结 VIT | 
-| NVIDIA A100 | FULL ZERO3 | 192GB  | 1          | BF16 | 冻结 VIT | 
-| NVIDIA A100 | FULL ZERO2 | 304GB  | 1          | BF16 | 不冻结    | 
-| NVIDIA A100 | FULL ZERO3 | 210GB  | 1          | BF16 | 不冻结    | 
-
+| NVIDIA A100 | LORA       | 21GB   | 1          | BF16 | 冻结 VIT |
+| NVIDIA A100 | FULL ZERO2 | 280GB  | 1          | BF16 | 冻结 VIT |
+| NVIDIA A100 | FULL ZERO3 | 192GB  | 1          | BF16 | 冻结 VIT |
+| NVIDIA A100 | FULL ZERO2 | 304GB  | 1          | BF16 | 不冻结    |
+| NVIDIA A100 | FULL ZERO3 | 210GB  | 1          | BF16 | 不冻结    |
 
 > 使用 Zero2 微调可能出现 Loss 为 0 的情况，建议使用 Zero3 进行微调。
 
@@ -76,9 +74,9 @@ vllm serve THUDM/GLM-4.1V-9B-Thinking  --allowed-local-media-path /
 ```
 
 + `trans_infer_bench`：用于学术复现的推理脚本，支持`GLM-4.1V-9B-Thinking`模型。其核心在于
-    + 指定了中断思考的长度，当思考长度超过`8192`时，强制中断思考并补上`</think>\n<answer>`再次发起请求，让模型直接输出答案。
-    + 该方案仅提供 `transformers` 版本，vLLM版本需要自行根据该逻辑修改方案。
-    + 该例子中使用的一个视频作为输入的测试的例子。
+  + 指定了中断思考的长度，当思考长度超过`8192`时，强制中断思考并补上`</think>\n<answer>`再次发起请求，让模型直接输出答案。
+  + 该方案仅提供 `transformers` 版本，vLLM版本需要自行根据该逻辑修改方案。
+  + 该例子中使用的一个视频作为输入的测试的例子。
 
 ## 模型微调
 

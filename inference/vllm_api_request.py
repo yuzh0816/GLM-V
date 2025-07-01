@@ -29,7 +29,13 @@ def get_media_type(file_path):
     video_extensions = {".mp4", ".avi", ".mov"}
     image_extensions = {".jpg", ".jpeg", ".png"}
     _, ext = os.path.splitext(file_path.lower())
-    return "video_url" if ext in video_extensions else "image_url" if ext in image_extensions else None
+    return (
+        "video_url"
+        if ext in video_extensions
+        else "image_url"
+        if ext in image_extensions
+        else None
+    )
 
 
 def create_content_item(media_path, media_type):
@@ -48,7 +54,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--api-key", default="EMPTY")
     parser.add_argument("--base-url", default="http://127.0.0.1:8000/v1")
-    parser.add_argument("--model", default="THUDM/GLM-4.1V-9B-Thinkng")
+    parser.add_argument("--model", default="THUDM/GLM-4.1V-9B-Thinking")
     parser.add_argument("--media-path", required=True)
     parser.add_argument("--text", required=True)
     parser.add_argument("--max-tokens", type=int, default=25000)
@@ -59,16 +65,15 @@ def main():
     args = parser.parse_args()
     media_type = get_media_type(args.media_path)
     client = OpenAI(api_key=args.api_key, base_url=args.base_url)
-    messages = [{
-        "role":
-        "user",
-        "content": [
-            create_content_item(args.media_path, media_type), {
-                "type": "text",
-                "text": args.text
-            }
-        ],
-    }]
+    messages = [
+        {
+            "role": "user",
+            "content": [
+                create_content_item(args.media_path, media_type),
+                {"type": "text", "text": args.text},
+            ],
+        }
+    ]
     print("=========Messages=========")
     print(messages)
     response = client.chat.completions.create(
