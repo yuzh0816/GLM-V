@@ -8,7 +8,7 @@
 <p align="center">
     👋 Join our <a href="resources/WECHAT.md" target="_blank">Wechat</a> or <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a>
     <br>
-    📖 View the GLM-4.1V-9B-Thinking <a href=" https://arxiv.org/abs/2507.01006" target="_blank">paper</a>.
+    📖 View the GLM-4.1V-9B-Thinking <a href="https://arxiv.org/abs/2507.01006" target="_blank">paper</a>.
     <br>
     💡 Try the <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">Hugging Face</a> or <a href="https://modelscope.cn/studios/ZhipuAI/GLM-4.1V-9B-Thinking-Demo" target="_blank">ModelScope</a> online demo for GLM-4.1V-9B-Thinking.
     <br>
