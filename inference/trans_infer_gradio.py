@@ -17,6 +17,15 @@ from transformers import (
     TextIteratorStreamer,
 )
 
+import argparse
+
+parser = argparse.ArgumentParser() 
+parser.add_argument("--server_name", type=str, default="127.0.0.1", help="IP address, LAN access changed to 0.0.0.0")
+parser.add_argument("--server_port", type=int, default=7860, help="Use Port")
+parser.add_argument("--share", action="store_true", help="Enable gradio sharing")
+parser.add_argument("--mcp_server", action="store_true", help="Enable mcp service")
+args = parser.parse_args()
+
 MODEL_PATH = "THUDM/GLM-4.1V-9B-Thinking"
 stop_generation = False
 processor = None
@@ -331,10 +340,10 @@ with demo:
             chatbox = gr.Chatbot(
                 label="Conversation",
                 type="messages",
-                height=600,
+                height=800,
                 elem_classes="chatbot-container",
             )
-            textbox = gr.Textbox(label="💭 Message", lines=3)
+            textbox = gr.Textbox(label="💭 Message")
             with gr.Row():
                 send = gr.Button("Send", variant="primary")
                 clear = gr.Button("Clear")
@@ -351,17 +360,19 @@ with demo:
             )
             sys = gr.Textbox(label="⚙️ System Prompt", lines=6)
 
-    send.click(
-        chat,
-        inputs=[up, textbox, raw_history, sys],
-        outputs=[chatbox, raw_history, up, textbox],
-    )
-    textbox.submit(
-        chat,
+    gr.on(
+        triggers=[send.click, textbox.submit],
+        fn=chat,
         inputs=[up, textbox, raw_history, sys],
         outputs=[chatbox, raw_history, up, textbox],
     )
     clear.click(reset, outputs=[chatbox, raw_history, up, textbox])
 
-if __name__ == "__main__":
-    demo.launch()
+if __name__ == "__main__": 
+    demo.launch(
+        server_name=args.server_name, 
+        server_port=args.server_port,
+        share=args.share, 
+        mcp_server=args.mcp_server,
+        inbrowser=True,
+    )
