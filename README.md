@@ -10,7 +10,7 @@
     <br>
     📖 View the GLM-4.1V-9B-Thinking <a href="https://arxiv.org/abs/2507.01006" target="_blank">paper</a>.
     <br>
-    💡 Try the <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-Demo" target="_blank">Hugging Face</a> or <a href="https://modelscope.cn/studios/ZhipuAI/GLM-4.1V-9B-Thinking-Demo" target="_blank">ModelScope</a> online demo for GLM-4.1V-9B-Thinking.
+    💡 Try the <a href="https://huggingface.co/spaces/THUDM/GLM-4.1V-9B-Thinking-API-Demo" target="_blank">Hugging Face</a> or <a href="https://modelscope.cn/studios/ZhipuAI/GLM-4.1V-9B-Thinking-Demo" target="_blank">ModelScope</a> online demo for GLM-4.1V-9B-Thinking.
     <br>
     📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">Zhipu Foundation Model Open Platform</a>
 </p>
@@ -44,10 +44,10 @@ following improvements:
 
 ### Model Download Links
 
-| Model                | Download Links                                                                                                                                                                                                                 | Model Type      |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| GLM-4.1V-9B-Thinking | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking)<br> [🧩 Modelers](https://modelers.cn/models/zhipuai/GLM-4.1V-9B-Thinking) | Reasoning Model |
-| GLM-4.1V-9B-Base     | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base)<br> [🧩 Modelers](https://modelers.cn/models/zhipuai/GLM-4.1V-9B-Base)             | Base Model      |
+| Model                | Download Links                                                                                                                                    | Model Type      |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| GLM-4.1V-9B-Thinking | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking) | Reasoning Model |
+| GLM-4.1V-9B-Base     | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base) | Base Model      |
 
 The model's algorithm implementation can be found in the
 official [transformers](https://github.com/huggingface/transformers/tree/main/src/transformers/models/glm4v) repository.
@@ -111,6 +111,8 @@ All inference scripts are located in the `inference` folder and include:
     generate a final answer.
   + Demonstrates video-based input; for other modalities, modifications are required.
   + Only a `transformers` version is provided. For `vLLM`, a custom implementation is needed to support this logic.
+
++ For Ascend NPU Inference, Check [here](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md).
 
 ## Model Fine-tuning
 
