@@ -21,7 +21,7 @@ import argparse
 
 parser = argparse.ArgumentParser() 
 parser.add_argument("--server_name", type=str, default="127.0.0.1", help="IP address, LAN access changed to 0.0.0.0")
-parser.add_argument("--server_port", type=int, default=7890, help="Use Port")
+parser.add_argument("--server_port", type=int, default=7860, help="Use Port")
 parser.add_argument("--share", action="store_true", help="Enable gradio sharing")
 parser.add_argument("--mcp_server", action="store_true", help="Enable mcp service")
 args = parser.parse_args()
