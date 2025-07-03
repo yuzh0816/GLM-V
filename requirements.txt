@@ -1,9 +1,11 @@
-torch>=2.7.1
+setuptools>=80.9.0
+setuptools_scm>=8.3.1
+git+https://github.com/huggingface/transformers.git@91221da2f1f68df9eb97c980a7206b14c4d3a9b0
+git+https://github.com/vllm-project/vllm.git@220aee902a291209f2975d4cd02dadcc6749ffe6
+torchvision>=0.22.0
 gradio>=5.35.0
 pre-commit>=4.2.0
 PyMuPDF>=1.26.1
 av>=14.4.0
 accelerate>=1.6.0
-git+https://github.com/huggingface/transformers.git
-git+https://github.com/vllm-project/vllm.git
 spaces>=0.37.1

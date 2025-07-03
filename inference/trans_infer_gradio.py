@@ -1,3 +1,4 @@
+import argparse
 import copy
 import os
 import re
@@ -17,10 +18,13 @@ from transformers import (
     TextIteratorStreamer,
 )
 
-import argparse
-
-parser = argparse.ArgumentParser() 
-parser.add_argument("--server_name", type=str, default="127.0.0.1", help="IP address, LAN access changed to 0.0.0.0")
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--server_name",
+    type=str,
+    default="127.0.0.1",
+    help="IP address, LAN access changed to 0.0.0.0",
+)
 parser.add_argument("--server_port", type=int, default=7860, help="Use Port")
 parser.add_argument("--share", action="store_true", help="Enable gradio sharing")
 parser.add_argument("--mcp_server", action="store_true", help="Enable mcp service")
@@ -368,11 +372,11 @@ with demo:
     )
     clear.click(reset, outputs=[chatbox, raw_history, up, textbox])
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     demo.launch(
-        server_name=args.server_name, 
+        server_name=args.server_name,
         server_port=args.server_port,
-        share=args.share, 
+        share=args.share,
         mcp_server=args.mcp_server,
         inbrowser=True,
     )

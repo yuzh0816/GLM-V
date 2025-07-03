@@ -38,12 +38,13 @@
 
 ### 模型下载地址
 
-| 模型                   | 下载地址                                                                                                                                       | 模型类型 |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|------|
+| 模型                   | 下载地址                                                                                                                                               | 模型类型 |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|------|
 | GLM-4.1V-9B-Thinking | [🤗Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking) | 推理模型 |
-| GLM-4.1V-9B-Base     | [🤗Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base) | 基座模型 |
+| GLM-4.1V-9B-Base     | [🤗Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base)         | 基座模型 |
 
-模型算法代码可以查看 [transformers](https://github.com/huggingface/transformers/tree/main/src/transformers/models/glm4v) 的完整实现。
+模型算法代码可以查看 [transformers](https://github.com/huggingface/transformers/tree/main/src/transformers/models/glm4v)
+的完整实现。
 
 ### 运行要求
 
@@ -96,6 +97,9 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
     再次发起请求，让模型直接输出答案。该例子中使用的一个视频作为输入的测试的例子。其他情况需自行修改。
   + 该方案仅提供 `transformers` 版本，vLLM版本需要自行根据该逻辑修改方案。
 
++ `vllm_request_gui_agent.py`: 该脚本展现了用于 GUI Agent时对于模型返回的处理和构建提示词方案,
+  包含手机，电脑和网页端的策略，可集成到您的应用框架。GUI Agent详细文档请查看[这里](resources/agent_zh.md)
+
 + 使用 Ascend NPU 设备推理，可查看 [这里](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md)
 
 ## 模型微调
@@ -141,3 +145,19 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
 
 + 本仓库代码遵循[Apache License 2.0](LICENSE)协议。
 + GLM-4.1V-9B-Thinking 和 GLM-4.1V-9B-Base 模型均采用 MIT协议。
+
+## 引用论文
+
+如果您使用了本模型，请引用以下论文：
+
+```bibtex
+@misc{vteam2025glm41vthinkingversatilemultimodalreasoning,
+      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning}, 
+      author={GLM-V Team and Wenyi Hong and Wenmeng Yu and Xiaotao Gu and Guo Wang and Guobing Gan and Haomiao Tang and Jiale Cheng and Ji Qi and Junhui Ji and Lihang Pan and Shuaiqi Duan and Weihan Wang and Yan Wang and Yean Cheng and Zehai He and Zhe Su and Zhen Yang and Ziyang Pan and Aohan Zeng and Baoxu Wang and Boyan Shi and Changyu Pang and Chenhui Zhang and Da Yin and Fan Yang and Guoqing Chen and Jiazheng Xu and Jiali Chen and Jing Chen and Jinhao Chen and Jinghao Lin and Jinjiang Wang and Junjie Chen and Leqi Lei and Letian Gong and Leyi Pan and Mingzhi Zhang and Qinkai Zheng and Sheng Yang and Shi Zhong and Shiyu Huang and Shuyuan Zhao and Siyan Xue and Shangqin Tu and Shengbiao Meng and Tianshu Zhang and Tianwei Luo and Tianxiang Hao and Wenkai Li and Wei Jia and Xin Lyu and Xuancheng Huang and Yanling Wang and Yadong Xue and Yanfeng Wang and Yifan An and Yifan Du and Yiming Shi and Yiheng Huang and Yilin Niu and Yuan Wang and Yuanchang Yue and Yuchen Li and Yutao Zhang and Yuxuan Zhang and Zhanxiao Du and Zhenyu Hou and Zhao Xue and Zhengxiao Du and Zihan Wang and Peng Zhang and Debing Liu and Bin Xu and Juanzi Li and Minlie Huang and Yuxiao Dong and Jie Tang},
+      year={2025},
+      eprint={2507.01006},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2507.01006}, 
+}
+```

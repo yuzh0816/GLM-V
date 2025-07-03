@@ -44,10 +44,10 @@ following improvements:
 
 ### Model Download Links
 
-| Model                | Download Links                                                                                                                                    | Model Type      |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
+| Model                | Download Links                                                                                                                                      | Model Type      |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
 | GLM-4.1V-9B-Thinking | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking) | Reasoning Model |
-| GLM-4.1V-9B-Base     | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base) | Base Model      |
+| GLM-4.1V-9B-Base     | [🤗 Hugging Face](https://huggingface.co/THUDM/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base)         | Base Model      |
 
 The model's algorithm implementation can be found in the
 official [transformers](https://github.com/huggingface/transformers/tree/main/src/transformers/models/glm4v) repository.
@@ -112,6 +112,10 @@ All inference scripts are located in the `inference` folder and include:
   + Demonstrates video-based input; for other modalities, modifications are required.
   + Only a `transformers` version is provided. For `vLLM`, a custom implementation is needed to support this logic.
 
++ `vllm_request_gui_agent.py`: This script demonstrates how to handle model responses and construct prompts for GUI
+  Agent use cases. It covers strategies for mobile, desktop, and web environments, and can be integrated into your
+  application framework. For detailed documentation about GUI Agent, please refer to [this file](resources/agent_zh.md).
+
 + For Ascend NPU Inference, Check [here](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md).
 
 ## Model Fine-tuning
@@ -157,3 +161,19 @@ After preparing the dataset, you can proceed with fine-tuning using the standard
 
 + The code in this repository is released under the [Apache License 2.0](LICENSE).
 + The models **GLM-4.1V-9B-Thinking** and **GLM-4.1V-9B-Base** are both licensed under the **MIT License**.
+
+## Citation
+
+If you find our work helpful, please consider citing the following paper.
+
+```bibtex
+@misc{vteam2025glm41vthinkingversatilemultimodalreasoning,
+      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning}, 
+      author={GLM-V Team and Wenyi Hong and Wenmeng Yu and Xiaotao Gu and Guo Wang and Guobing Gan and Haomiao Tang and Jiale Cheng and Ji Qi and Junhui Ji and Lihang Pan and Shuaiqi Duan and Weihan Wang and Yan Wang and Yean Cheng and Zehai He and Zhe Su and Zhen Yang and Ziyang Pan and Aohan Zeng and Baoxu Wang and Boyan Shi and Changyu Pang and Chenhui Zhang and Da Yin and Fan Yang and Guoqing Chen and Jiazheng Xu and Jiali Chen and Jing Chen and Jinhao Chen and Jinghao Lin and Jinjiang Wang and Junjie Chen and Leqi Lei and Letian Gong and Leyi Pan and Mingzhi Zhang and Qinkai Zheng and Sheng Yang and Shi Zhong and Shiyu Huang and Shuyuan Zhao and Siyan Xue and Shangqin Tu and Shengbiao Meng and Tianshu Zhang and Tianwei Luo and Tianxiang Hao and Wenkai Li and Wei Jia and Xin Lyu and Xuancheng Huang and Yanling Wang and Yadong Xue and Yanfeng Wang and Yifan An and Yifan Du and Yiming Shi and Yiheng Huang and Yilin Niu and Yuan Wang and Yuanchang Yue and Yuchen Li and Yutao Zhang and Yuxuan Zhang and Zhanxiao Du and Zhenyu Hou and Zhao Xue and Zhengxiao Du and Zihan Wang and Peng Zhang and Debing Liu and Bin Xu and Juanzi Li and Minlie Huang and Yuxiao Dong and Jie Tang},
+      year={2025},
+      eprint={2507.01006},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2507.01006}, 
+}
+```
