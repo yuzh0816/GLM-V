@@ -114,7 +114,7 @@ All inference scripts are located in the `inference` folder and include:
 
 + `vllm_request_gui_agent.py`: This script demonstrates how to handle model responses and construct prompts for GUI
   Agent use cases. It covers strategies for mobile, desktop, and web environments, and can be integrated into your
-  application framework. For detailed documentation about GUI Agent, please refer to [this file](resources/agent_zh.md).
+  application framework. For detailed documentation about GUI Agent, please refer to [this file](resources/agent.md).
 
 + For Ascend NPU Inference, Check [here](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md).
 
