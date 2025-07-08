@@ -1,7 +1,7 @@
 setuptools>=80.9.0
 setuptools_scm>=8.3.1
-transformers==4.53.1
-vllm --pre --extra-index-url https://wheels.vllm.ai/nighty
+transformers>=4.53.1
+vllm>=0.9.2
 torchvision>=0.22.0
 gradio>=5.35.0
 pre-commit>=4.2.0
