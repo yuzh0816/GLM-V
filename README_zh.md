@@ -15,6 +15,14 @@
     📍 在 <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">智谱大模型开放平台</a> 使用 GLM-4.1V-9B-Thinking 的API服务。
 </p>
 
+## 项目更新
+
+- 🔥 **News**: `2025/07/16`: 我们已经开源了训练 GLM-4.1V-Thinking 时使用的 **VLM 奖励系统**！查看[代码仓库](https://github.com/THUDM/GLM-4.1V-Thinking/tree/main/glmv_reward)并在本地运行：`python examples/reward_system_demo.py`
+
+- **News**: `2025/07/02`: [GLM-4.1V-9B-Thinking 系列](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking)现已开源！支持增强的视觉推理和智能体交互。
+
+- **News**: `2025/07/01`: 我们发布了 GLM-4.1V-Thinking 的[技术报告](https://arxiv.org/abs/2507.01006)。
+
 ## 模型介绍
 
 视觉语言大模型（VLM）已经成为智能系统的关键基石。随着真实世界的智能任务越来越复杂，VLM模型也亟需在基本的多模态感知之外，

@@ -15,6 +15,14 @@
     📍 Using GLM-4.1V-9B-Thinking API at <a href="https://www.bigmodel.cn/dev/api/visual-reasoning-model/GLM-4.1V-Thinking">Zhipu Foundation Model Open Platform</a>
 </p>
 
+## Project Updates
+
+- 🔥 **News**: `2025/07/16`: We have open-sourced the **VLM Reward System** used in training GLM-4.1V-Thinking! Check out the [repo here](https://github.com/THUDM/GLM-4.1V-Thinking/tree/main/glmv_reward) and try it locally: `python examples/reward_system_demo.py`
+
+- **News**: `2025/07/02`: The [GLM-4.1V-9B-Thinking series](https://huggingface.co/THUDM/GLM-4.1V-9B-Thinking) is now open-sourced! Supports enhanced visual reasoning and agent interaction.
+
+- **News**: `2025/07/01`: We released the [Technical Report](https://arxiv.org/abs/2507.01006) for GLM-4.1V-Thinking.
+
 ## Model Introduction
 
 Vision-Language Models (VLMs) have become foundational components of intelligent systems. As real-world AI tasks grow
