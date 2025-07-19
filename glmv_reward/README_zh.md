@@ -24,7 +24,7 @@
 **主要特性：**
 - **生产级**：在 GLM-4.1V-Thinking 训练中经过实战检验
 - **易于集成**：与任何强化学习训练管道兼容
-- **多种验证器**：数学、通用、图表等多种类型
+- **多种验证器**：数学、通用、图表、智能体等多种类型
 - **混合验证**：结合基于规则的验证器和LLM判断
 - **灵活配置**：基于 YAML 的配置，适用于不同使用场景
 
@@ -49,6 +49,13 @@
    ```bash
    python examples/reward_system_demo.py
    ```
+
+## 测试
+
+运行测试套件以验证安装：
+```bash
+pytest tests/
+```
 
 ## 工作原理
 
@@ -82,7 +89,9 @@ print(f"奖励: {rewards[0]}")  # 输出: 1.0 (正确答案)
 
 ## 配置
 
-系统使用 YAML 配置文件。示例：
+系统使用 YAML 配置文件。完整配置参考请见 [`configs/full_config.yaml`](configs/full_config.yaml)。
+
+示例：
 
 ```yaml
 reward_configs:
@@ -112,11 +121,16 @@ reward_configs:
 - **VQA 验证器**：专门用于视觉问答
 - **计数验证器**：评估图像中的计数和数值推理
 
+### 智能体验证器
+- **AndroidWorld 验证器**：评估 Android 自动化和交互任务
+- **WebVoyager 验证器**：处理 Web 导航和交互评估
+- **OSWorld 验证器**：专门用于操作系统交互任务
+
 ### 专门任务验证器
 - **通用验证器**：处理具有大模型判断回退的通用推理任务
 - **语言混合验证器**：检测不当的语言混合模式
-- **MMSI 验证器**：专门用于 MMSI 任务
 - **GeoQuest 验证器**：处理地理相关的问答任务
+- **MMSI 验证器**：专门用于 MMSI
 
 ## 引用
 
@@ -124,12 +138,12 @@ reward_configs:
 
 ```bibtex
 @misc{glmvteam2025glm41vthinkingversatilemultimodalreasoning,
-      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning},
+      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning}, 
       author={GLM-V Team and Wenyi Hong and Wenmeng Yu and Xiaotao Gu and Guo Wang and Guobing Gan and Haomiao Tang and Jiale Cheng and Ji Qi and Junhui Ji and Lihang Pan and Shuaiqi Duan and Weihan Wang and Yan Wang and Yean Cheng and Zehai He and Zhe Su and Zhen Yang and Ziyang Pan and Aohan Zeng and Baoxu Wang and Boyan Shi and Changyu Pang and Chenhui Zhang and Da Yin and Fan Yang and Guoqing Chen and Jiazheng Xu and Jiali Chen and Jing Chen and Jinhao Chen and Jinghao Lin and Jinjiang Wang and Junjie Chen and Leqi Lei and Letian Gong and Leyi Pan and Mingzhi Zhang and Qinkai Zheng and Sheng Yang and Shi Zhong and Shiyu Huang and Shuyuan Zhao and Siyan Xue and Shangqin Tu and Shengbiao Meng and Tianshu Zhang and Tianwei Luo and Tianxiang Hao and Wenkai Li and Wei Jia and Xin Lyu and Xuancheng Huang and Yanling Wang and Yadong Xue and Yanfeng Wang and Yifan An and Yifan Du and Yiming Shi and Yiheng Huang and Yilin Niu and Yuan Wang and Yuanchang Yue and Yuchen Li and Yutao Zhang and Yuxuan Zhang and Zhanxiao Du and Zhenyu Hou and Zhao Xue and Zhengxiao Du and Zihan Wang and Peng Zhang and Debing Liu and Bin Xu and Juanzi Li and Minlie Huang and Yuxiao Dong and Jie Tang},
       year={2025},
       eprint={2507.01006},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2507.01006},
+      url={https://arxiv.org/abs/2507.01006}, 
 }
-```
+``` 
