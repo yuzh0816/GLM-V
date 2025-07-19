@@ -27,6 +27,7 @@ from .multi_image_verifier import MultiImageVerifier
 from .ocr_verifier import OCRVerifier
 from .physics_verifier import PhysicsVerifier
 from .vqa_verifier import VQAVerifier
+from .verifier_from_file import FileBasedVerifier
 
 _VERIFIER_REGISTRY: dict[str, type[Verifier]] = {
     "biology": BiologyVerifier,
@@ -44,6 +45,11 @@ _VERIFIER_REGISTRY: dict[str, type[Verifier]] = {
     "ocr": OCRVerifier,
     "physics": PhysicsVerifier,
     "vqa": VQAVerifier,
+    "file_based": FileBasedVerifier,
+    # Function-based verifiers
+    "androidworld": FileBasedVerifier,
+    "osworld": FileBasedVerifier,
+    "webvoyager": FileBasedVerifier,
 }
 _VERIFIER_INSTANCE_REGISTRY: dict[str, Verifier] = {}
 
@@ -69,15 +75,26 @@ def get_verifier_from_config(config: VerifierConfig, datasource: str) -> Verifie
     verifier_instance_key = f"{datasource}@{verifier_type}"
 
     if verifier_instance_key not in _VERIFIER_INSTANCE_REGISTRY:
-        kwargs: dict[str, Any] = {}
-        for key in inspect.signature(verifier_cls.__init__).parameters:
-            if key == "self":
-                continue
-            try:
-                value = get_struct_attr(config, key)
-            except Exception:
-                _logger.debug("Configuration field `%s` is missing, will use the default value.", key)
-            else:
-                kwargs[key] = value
-        _VERIFIER_INSTANCE_REGISTRY[verifier_instance_key] = verifier_cls(**kwargs)
+        if verifier_cls == FileBasedVerifier:
+            # FileBasedVerifier expects a config dict
+            config_dict = {}
+            for key in ["extract_answer_file_path", "extract_answer_func_name", "judge_func_path", "judge_func_name", "load_once"]:
+                try:
+                    value = get_struct_attr(config, key)
+                    config_dict[key] = value
+                except Exception:
+                    _logger.debug("Configuration field `%s` is missing, will use the default value.", key)
+            _VERIFIER_INSTANCE_REGISTRY[verifier_instance_key] = verifier_cls(config_dict)
+        else:
+            kwargs: dict[str, Any] = {}
+            for key in inspect.signature(verifier_cls.__init__).parameters:
+                if key == "self":
+                    continue
+                try:
+                    value = get_struct_attr(config, key)
+                except Exception:
+                    _logger.debug("Configuration field `%s` is missing, will use the default value.", key)
+                else:
+                    kwargs[key] = value
+            _VERIFIER_INSTANCE_REGISTRY[verifier_instance_key] = verifier_cls(**kwargs)
     return _VERIFIER_INSTANCE_REGISTRY[verifier_instance_key]
