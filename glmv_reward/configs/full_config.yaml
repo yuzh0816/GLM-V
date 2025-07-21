@@ -26,7 +26,7 @@ reward_configs:
         verifier_type: "geoquest"
         strict_boxed_extraction: true
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -161,7 +161,7 @@ reward_configs:
         strict_boxed_extraction: true # Math answers usually need to be in \boxed{}
         # Optional: if MathVerifier needs to fallback to an LLM judge for tricky cases
         enable_llm_judge_fallback: true
-        llm_api_key: "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+        llm_api_key: "your_api_keys"
         llm_judge_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model: glm-4-flash
         llm_judge_prompt_template: |
@@ -254,7 +254,7 @@ reward_configs:
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -643,7 +643,7 @@ reward_configs:
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -1083,7 +1083,7 @@ reward_configs:
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -1471,7 +1471,7 @@ reward_configs:
         verifier_type: "general"
         # See docs/regex_cheatsheet.md for full examples
         answer_extraction_regex: "^<think>(.*?)</think>(?P<answer>.*)$"
-        llm_api_key: "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+        llm_api_key: "your_api_keys"
         llm_judge_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model: glm-4-flash # Uses the one from reward_urls or can be direct
         llm_max_tokens: 2048
@@ -1545,7 +1545,7 @@ reward_configs:
         enable_llm_judge_fallback: true
         # See docs/regex_cheatsheet.md for full examples
         answer_extraction_regex: "^<think>(.*?)</think>(?P<answer>.*)$"
-        llm_api_key: "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+        llm_api_key: "your_api_keys"
         llm_judge_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model: glm-4-flash # Uses the one from reward_urls or can be direct
         llm_max_tokens: 2048
@@ -1709,7 +1709,7 @@ reward_configs:
         sympy_tolerance: 1.0e-6
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
-        llm_api_key: "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+        llm_api_key: "your_api_keys"
         llm_judge_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model: glm-4-flash
         llm_max_tokens: 2048
@@ -1784,7 +1784,7 @@ reward_configs:
         # disable llm judge
         enable_llm_judge_fallback: false
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -1898,7 +1898,7 @@ reward_configs:
         # disable llm judge
         enable_llm_judge_fallback: false
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -2013,7 +2013,7 @@ reward_configs:
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
         llm_api_key:
-          - "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+          - "your_api_keys"
         llm_judge_url:
           - "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model:
@@ -2186,7 +2186,7 @@ reward_configs:
         verifier_type: "counting"
         strict_boxed_extraction: true
         enable_llm_judge_fallback: true
-        llm_api_key: "979525e325524e629a9fe3a0d406b924.f5e8BbGc4DpMPAbm"
+        llm_api_key: "your_api_keys"
         llm_judge_url: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
         llm_model: glm-4-flash
         llm_max_tokens: 2048
