@@ -1,6 +1,9 @@
 default_install_hook_types:
   - pre-commit
   - commit-msg
+
+exclude: "^glmv_reward/configs/full_config\\.yaml$"
+
 default_stages:
   - pre-commit # Run locally
 repos:

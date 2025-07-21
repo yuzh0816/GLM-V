@@ -3,10 +3,12 @@
 
 from typing import Union
 
+from .androidworld import AndroidworldVerifierConfig
 from .biology import BiologyVerifierConfig
 from .chart import ChartVerifierConfig
 from .chemistry import ChemistryVerifierConfig
 from .counting import CountingVerifierConfig
+from .file_based import FileBasedVerifierConfig
 from .general import GeneralVerifierConfig
 from .geography import GeographyVerifierConfig
 from .geoquest import GeoQuestVerifierConfig
@@ -17,12 +19,10 @@ from .math import MathVerifierConfig
 from .mmsi import MmsiVerifierConfig
 from .multi_image import MultiImageVerifierConfig
 from .ocr import OCRVerifierConfig
+from .osworld import OsworldVerifierConfig
 from .physics import PhysicsVerifierConfig
 from .vqa import VQAVerifierConfig
-from .androidworld import AndroidworldVerifierConfig
 from .webvoyager import WebvoyagerVerifierConfig
-from .osworld import OsworldVerifierConfig
-from .file_based import FileBasedVerifierConfig
 
 VerifierConfig = Union[
     BiologyVerifierConfig,

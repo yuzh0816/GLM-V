@@ -31,28 +31,36 @@
 ## 快速开始
 
 1. **安装包**：
+
    ```bash
    pip install -e .
    ```
 
 2. **设置您的 API 密钥**：
-   ```bash
+  
+```bash
    export ZHIPUAI_API_KEY='your_api_key_here'
    ```
-3. **配置奖励系统**：
+  
+1. **配置奖励系统**：
+
    ```bash
-   cp examples/configs/example.yaml.template examples/configs/example.yaml
+cp examples/configs/example.yaml.template examples/configs/example.yaml
+
    ```
-   编辑 `example.yaml` 文件来配置奖励系统。
+   
+编辑 `example.yaml` 文件来配置奖励系统。
 
 4. **运行demo**：
+   
    ```bash
    python examples/reward_system_demo.py
-   ```
+```
 
 ## 测试
 
 运行测试套件以验证安装：
+
 ```bash
 pytest tests/
 ```

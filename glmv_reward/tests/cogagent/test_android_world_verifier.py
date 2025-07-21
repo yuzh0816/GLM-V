@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_android_world_verifier_judge(android_world_verifier):
     # Test basic number comparison
     # assert android_world_verifier.judge("<|begin_of_box|>", "\\boxed{2.0}") == 1.0
@@ -13,7 +14,7 @@ Action: <|begin_of_box|>{"box_2d": [[503,580,718,702]], "action_type": "click"}<
     # Extract dictionaries from strings first
     gt_dict = android_world_verifier.extract_answer(gt)
     ans_dict = android_world_verifier.extract_answer(ans_swap_pos)
-    
+
     assert android_world_verifier.judge(ground_truth=gt_dict, extracted_answer=ans_dict) == 1.0
 
     ans_more_param = """Memory: None
@@ -97,5 +98,3 @@ Action: <|begin_of_box|>{'action_type': 'input_text', 'text': 'Personal Finance 
     assert android_world_verifier.judge(ground_truth=gt_no_override_dict, extracted_answer=ans_no_override_dict) == 1.0
     assert android_world_verifier.judge(ground_truth=gt_override_dict, extracted_answer=ans_override_dict) == 1.0
     assert android_world_verifier.judge(ground_truth=gt_override_dict, extracted_answer=ans_override2_dict) == 1.0
-
-    

@@ -26,8 +26,8 @@ from .mmsi_verifier import MmsiVerifier
 from .multi_image_verifier import MultiImageVerifier
 from .ocr_verifier import OCRVerifier
 from .physics_verifier import PhysicsVerifier
-from .vqa_verifier import VQAVerifier
 from .verifier_from_file import FileBasedVerifier
+from .vqa_verifier import VQAVerifier
 
 _VERIFIER_REGISTRY: dict[str, type[Verifier]] = {
     "biology": BiologyVerifier,
@@ -78,7 +78,13 @@ def get_verifier_from_config(config: VerifierConfig, datasource: str) -> Verifie
         if verifier_cls == FileBasedVerifier:
             # FileBasedVerifier expects a config dict
             config_dict = {}
-            for key in ["extract_answer_file_path", "extract_answer_func_name", "judge_func_path", "judge_func_name", "load_once"]:
+            for key in [
+                "extract_answer_file_path",
+                "extract_answer_func_name",
+                "judge_func_path",
+                "judge_func_name",
+                "load_once",
+            ]:
                 try:
                     value = get_struct_attr(config, key)
                     config_dict[key] = value

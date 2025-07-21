@@ -1,12 +1,13 @@
-import re
 import json
-from typing import Optional, Any
+import re
+from typing import Any, Optional
+
 
 def extract_answer_obj(s: str):
-    if '<|begin_of_box|>' not in s or '<|end_of_box|>' not in s:
+    if "<|begin_of_box|>" not in s or "<|end_of_box|>" not in s:
         return None
     try:
-        res = s.split('<|begin_of_box|>')[1].split('<|end_of_box|>')[0].strip()
+        res = s.split("<|begin_of_box|>")[1].split("<|end_of_box|>")[0].strip()
 
         # Processing leading zeros if any
         ptn = r"\[\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]\]"
@@ -22,11 +23,7 @@ def extract_answer_obj(s: str):
         try:
             return json.loads(res)
         except:
-            return eval(res, {
-                'true': True, 
-                'false': False,
-                'null': None
-            }) 
+            return eval(res, {"true": True, "false": False, "null": None})
     except:
         return None
 
@@ -62,6 +59,7 @@ def iou(box1, box2):
 
     return inter_area / union_area
 
+
 def check_box_valid(box):
     if not box:
         return False
@@ -72,7 +70,7 @@ def check_box_valid(box):
             return False
         if x < 0 or x > 999:
             return False
-    
+
     if box[0] > box[2] or box[1] > box[3]:
         return False
     return True
@@ -81,11 +79,12 @@ def check_box_valid(box):
 def extract_answer(response: str, question: Optional[str] = None) -> Optional[dict]:
     return extract_answer_obj(response)
 
+
 def judge(
-    extracted_answer: Any,  
-    ground_truth: Any, 
+    extracted_answer: Any,
+    ground_truth: Any,
     question: Optional[str] = None,
-    image_path = None,
+    image_path=None,
 ) -> float:
     assert isinstance(ground_truth, dict)
 
@@ -95,41 +94,54 @@ def judge(
     if set(extracted_answer.keys()) != set(ground_truth.keys()):
         # maybe format error or different action type
         return 0.0
-    
+
     key2scores = {}
     for key in ground_truth:
         if extracted_answer[key] == ground_truth[key]:
             key2scores[key] = 1.0
             continue
-        
+
         if key == "text":
             t1 = ground_truth[key]
             t2 = extracted_answer[key]
             key2scores[key] = lcs(t1, t2) / max(len(t1), len(t2))
-        elif key == 'box_2d':
+        elif key == "box_2d":
             # box in [[xmin,ymin,xmax,ymax]] format
             box1 = ground_truth[key][0]
             assert check_box_valid(box1)
             box2 = extracted_answer[key][0]
             if not check_box_valid(box2):
                 return 0.0
-            
+
             key2scores[key] = iou(box1, box2)
-        else: # It must be an enumeration type.
+        else:  # It must be an enumeration type.
             key2scores[key] = 0.0
-    
+
     reward = 1
     for sub_score in key2scores.values():
-            reward *= sub_score
+        reward *= sub_score
 
     return reward
 
-if __name__ == "__main__":
-    gt_override = {'action_type': 'input_text', 'text': 'Personal Finance Tracker', 'override': True, 'box_2d': [[38, 115, 960, 141]]}
-    ans_override2 = {'action_type': 'input_text', 'text': 'Personal Finance Tracker', 'override': True, 'box_2d': [[38, 115, 961, 140]]}
 
-    print(judge(
-        question="How many sub-pages are listed under the Sub-pages section?", 
-        extracted_answer=ans_override2,
-        ground_truth=gt_override
-    ))
+if __name__ == "__main__":
+    gt_override = {
+        "action_type": "input_text",
+        "text": "Personal Finance Tracker",
+        "override": True,
+        "box_2d": [[38, 115, 960, 141]],
+    }
+    ans_override2 = {
+        "action_type": "input_text",
+        "text": "Personal Finance Tracker",
+        "override": True,
+        "box_2d": [[38, 115, 961, 140]],
+    }
+
+    print(
+        judge(
+            question="How many sub-pages are listed under the Sub-pages section?",
+            extracted_answer=ans_override2,
+            ground_truth=gt_override,
+        )
+    )

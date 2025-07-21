@@ -1,6 +1,7 @@
 # tests/verifiers/test_general_verifier.py
 import pytest
-from glmv_reward.verifiers import  MathVerifier
+
+from glmv_reward.verifiers import MathVerifier
 
 # def test_extract_correct_format_strict(general_verifier):
 #     response = "<think>The answer is 1+x.</think><answer>\\boxed{1+x}</answer>"
@@ -52,7 +53,7 @@ from glmv_reward.verifiers import  MathVerifier
 #     assert general_verifier.judge("72°", "72") == 1.0
 #     assert general_verifier.judge("72", "72°") == 1.0
 #     assert general_verifier.judge("50 %", "0.5") == 1.0 # With space
-    
+
 # def test_general_verifier_extraction_correct(general_verifier):
 #     response = "<think>The answer is 1+x.</think><answer>\\boxed{1+x}</answer>"
 #     assert general_verifier.extract_answer(response) == "1+x"
@@ -64,13 +65,13 @@ from glmv_reward.verifiers import  MathVerifier
 # def test_general_verifier_judge_incorrect(general_verifier):
 #     assert general_verifier.judge("x+1", "x+2") == 0.0
 #     assert general_verifier.judge("3.1", "3.0") == 0.0
-    
-    
+
+
 # def test_pi_in_answer(general_verifier):
 #     assert general_verifier.judge("pi + 1", "π + 1") == 1.0
 #     assert general_verifier.judge("\\pi + 1", "π + 1") == 1.0
 #     assert general_verifier.judge("2\\pi + 1", "1 + 2π") == 1.0
-    
+
 # def test_fraction_and_decimal(general_verifier):
 #     assert general_verifier.judge("1/2", "0.5") == 1.0
 #     assert general_verifier.judge("0.25", "1/4") == 1.0
@@ -139,11 +140,11 @@ from glmv_reward.verifiers import  MathVerifier
 #     # Test decimal and fraction equivalence
 #     assert general_verifier.judge("0.5", "1/2") == 1.0
 #     assert general_verifier.judge("0.333...", "1/3") == 1.0
-    
+
 #     # Test scientific notation
 #     assert general_verifier.judge("1.23e4", "12300") == 1.0
 #     assert general_verifier.judge("1.23E-4", "0.000123") == 1.0
-    
+
 #     # Test square root equivalence
 #     assert general_verifier.judge("√4", "2") == 1.0
 #     assert general_verifier.judge("\\sqrt{9}", "3") == 1.0
@@ -165,7 +166,7 @@ from glmv_reward.verifiers import  MathVerifier
 #     assert general_verifier.judge("πr²", "πr^2") == 1.0
 #     assert general_verifier.judge("2πr", "2πr") == 1.0
 #     assert general_verifier.judge("sin²θ + cos²θ", "1") == 1.0
-    
+
 #     # Test more complex mathematical expressions
 #     assert general_verifier.judge("e^(iπ)", "-1") == 1.0
 #     assert general_verifier.judge("log(e)", "1") == 1.0
@@ -178,12 +179,12 @@ from glmv_reward.verifiers import  MathVerifier
 #     assert general_verifier.judge("arcsin(1)", "π/2") == 1.0
 #     assert general_verifier.judge("arccos(0)", "π/2") == 1.0
 #     assert general_verifier.judge("arctan(1)", "π/4") == 1.0
-    
+
 #     # Test more complex mathematical expressions
 #     assert general_verifier.judge("sinh(0)", "0") == 1.0
 #     assert general_verifier.judge("cosh(0)", "1") == 1.0
 #     assert general_verifier.judge("tanh(0)", "0") == 1.0
-    
+
 #     # Test matrix operations
 #     assert general_verifier.judge("[[1,2],[3,4]]", "[[1,2],[3,4]]") == 1.0
 #     assert general_verifier.judge("det([[1,2],[3,4]])", "-2") == 1.0
@@ -196,19 +197,19 @@ from glmv_reward.verifiers import  MathVerifier
 #     assert general_verifier.judge("B", "B", question=question) == 1.0
 #     assert general_verifier.judge("C", "C", question=question) == 1.0
 #     assert general_verifier.judge("D", "D", question=question) == 1.0
-    
+
 #     # Test case insensitivity for letter options
 #     assert general_verifier.judge("A", "A", question=question) == 1.0
 #     assert general_verifier.judge("B", "B", question=question) == 1.0
 #     assert general_verifier.judge("C", "C", question=question) == 1.0
 #     assert general_verifier.judge("D", "D", question=question) == 1.0
-    
-    
+
+
 #     assert general_verifier.judge("A. Blue", "A", question=question) == 1.0
 #     assert general_verifier.judge("B. Red", "B", question=question) == 1.0
 #     assert general_verifier.judge("C. Green", "C", question=question) == 1.0
 #     assert general_verifier.judge("D. Yellow", "D", question=question) == 1.0
-    
+
 #     # Test multiple choice with number options
 #     question_num = "What is the color of the this?\n(1) Blue\n(2) Red\n(3) Green\n(4) Yellow"
 #     assert general_verifier.judge("1", "1", question=question_num) == 1.0
@@ -217,8 +218,7 @@ from glmv_reward.verifiers import  MathVerifier
 #     assert general_verifier.judge("4", "4", question=question_num) == 1.0
 
 #     assert general_verifier.judge("Red", "3", question=question) == 0.0
-    
+
 #     # Test multiple choice with spaces
 #     assert general_verifier.judge(" A ", "A", question=question) == 1.0
 #     assert general_verifier.judge("\\boxed{B} ", "B", question=question) == 1.0
-    

@@ -3,7 +3,7 @@
 
 import re
 from collections.abc import Sequence
-from typing import Any, Optional, cast, Union
+from typing import Any, Optional, Union, cast
 
 import editdistance
 

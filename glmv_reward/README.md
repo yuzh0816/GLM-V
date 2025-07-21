@@ -32,28 +32,36 @@
 ## Quick Start
 
 1. **Install the package**:
+
    ```bash
    pip install -e .
    ```
 
 2. **Set your API key**:
-   ```bash
+  
+```bash
    export ZHIPUAI_API_KEY='your_api_key_here'
    ```
-3. **Configure the reward system**:
+  
+1. **Configure the reward system**:
+
    ```bash
-   cp examples/configs/example.yaml.template examples/configs/example.yaml
+cp examples/configs/example.yaml.template examples/configs/example.yaml
+
    ```
-   Edit the `example.yaml` file to configure the reward system.
+   
+Edit the `example.yaml` file to configure the reward system.
 
 4. **Run the demo**:
+   
    ```bash
    python examples/reward_system_demo.py
-   ```
+```
 
 ## Testing
 
 Run the test suite to verify the installation:
+
 ```bash
 pytest tests/
 ```

@@ -1,5 +1,7 @@
 import pytest
+
 from glmv_reward.verifiers import ChemistryVerifier
+
 
 def test_chemistry_verifier_judge_chemical_formulas(chemistry_verifier):
     """测试基础化学式的等价性判断，包括常见写法、下标、中文描述等。"""
@@ -25,7 +27,6 @@ def test_chemistry_verifier_judge_chemical_formulas(chemistry_verifier):
     # assert chemistry_verifier.judge("氢气和氧气反应生成水", "2H2 + O2 → 2H2O") == 1.0
 
 
-
 def test_chemistry_verifier_judge_chemical_states(chemistry_verifier):
     """测试物质状态（气、液、固、溶液）标注的等价性。"""
     # Test chemical states
@@ -45,6 +46,7 @@ def test_chemistry_verifier_judge_chemical_states(chemistry_verifier):
     assert chemistry_verifier.judge("CO2", "CO2(g)") == 1.0
     assert chemistry_verifier.judge("NaCl", "NaCl(s)") == 1.0
     assert chemistry_verifier.judge("H2SO4(aq)", "H2SO4") == 1.0
+
 
 def test_chemistry_verifier_judge_chemical_charges(chemistry_verifier):
     """测试带电粒子的等价性，包括离子、价态等。"""
@@ -82,6 +84,7 @@ def test_chemistry_verifier_judge_chemical_equilibrium(chemistry_verifier):
     assert chemistry_verifier.judge("N2 + 3H2 ⇌ 2NH3", "N2 + 3H2 ⇌ 2NH2") == 0.0  # 产物不同
     assert chemistry_verifier.judge("N2 + 3H2 ⇌ 2NH3", "N2 + 3H2 = 2NH3") == 1.0
 
+
 def test_chemistry_verifier_judge_chemical_ph(chemistry_verifier):
     # Test pH values
     assert chemistry_verifier.judge("pH = 7", "pH = 7") == 1.0
@@ -98,6 +101,7 @@ def test_chemistry_verifier_judge_chemical_units(chemistry_verifier):
     assert chemistry_verifier.judge("1 μM", "1e-6 mol/L") == 1.0
     assert chemistry_verifier.judge("1 nM", "1e-9 mol/L") == 1.0
 
+
 def test_chemistry_verifier_judge_chemical_quantities(chemistry_verifier):
     # Test chemical quantities with units
     assert chemistry_verifier.judge("1 mol", "1 mol") == 1.0
@@ -107,11 +111,13 @@ def test_chemistry_verifier_judge_chemical_quantities(chemistry_verifier):
     assert chemistry_verifier.judge("1 L", "1 L") == 1.0
     assert chemistry_verifier.judge("1 mL", "0.001 L") == 1.0
 
+
 def test_chemistry_verifier_judge_chemical_energies(chemistry_verifier):
     # Test chemical energies with units
     assert chemistry_verifier.judge("1 kJ/mol", "1 kJ/mol") == 1.0
     assert chemistry_verifier.judge("1 kcal/mol", "4.184 kJ/mol") == 1.0
     assert chemistry_verifier.judge("1 J/mol", "0.001 kJ/mol") == 1.0
+
 
 def test_chemistry_verifier_judge_chemical_pressures(chemistry_verifier):
     # Test chemical pressures with units
@@ -119,6 +125,7 @@ def test_chemistry_verifier_judge_chemical_pressures(chemistry_verifier):
     assert chemistry_verifier.judge("1 bar", "100 kPa") == 1.0
     assert chemistry_verifier.judge("1 mmHg", "0.133322 kPa") == 1.0
     assert chemistry_verifier.judge("1 torr", "0.133322 kPa") == 1.0
+
 
 def test_chemistry_verifier_judge_chemical_temperatures(chemistry_verifier):
     # Test chemical temperatures with units
@@ -135,10 +142,12 @@ def test_chemistry_verifier_judge_units_equivalence(chemistry_verifier):
     assert chemistry_verifier.judge("8.314 J mol^{-1} K^{-1}", "8.314 J/(mol·K)") == 1.0
     assert chemistry_verifier.judge("0.0821 L·atm/mol·K", "0.0821 L atm mol^{-1} K^{-1}") == 1.0
 
+
 def test_chemistry_verifier_judge_units_nonequivalence(chemistry_verifier):
     # 数值不同，不等价
     assert chemistry_verifier.judge("1.0N_A", "2.0N_A") == 0.0
     assert chemistry_verifier.judge("100 kJ/mol", "200 kJ/mol") == 0.0
+
 
 def test_chemistry_verifier_judge_chemical_equations_equivalence(chemistry_verifier):
     # 同种反应，不同写法，符合计量关系，应等价
@@ -148,10 +157,12 @@ def test_chemistry_verifier_judge_chemical_equations_equivalence(chemistry_verif
     assert chemistry_verifier.judge("CaCO3(s) → CaO(s) + CO2(g)", "CaCO3 = CaO + CO2") == 1.0
     assert chemistry_verifier.judge("\\mathrm{S} + \\mathrm{O_2} → \\mathrm{SO_2}", "S + O₂ → SO₂") == 1.0
 
+
 # def test_chemistry_verifier_judge_chemical_equilibrium(chemistry_verifier):
 #     assert chemistry_verifier.judge("N2 + 3H2 ⇌ 2NH3", "N2 + 3H2 = 2NH3") == 1.0
 
 # #
+
 
 def test_notation_format_differences(chemistry_verifier):
     assert chemistry_verifier.judge("6.022e23", "6.022×10²³") == 1.0
@@ -185,21 +196,38 @@ def test_contextual_inference_extended(chemistry_verifier):
 
     assert chemistry_verifier.judge("加热氯酸钾和二氧化锰混合物", "加热KClO3和MnO2的混合物") == 1.0
 
-    assert chemistry_verifier.judge("能通过控制滴加液体的快慢从而控制反应速率", "反应速率可通过控制液体滴加的速度来调节") == 1.0
+    assert (
+        chemistry_verifier.judge("能通过控制滴加液体的快慢从而控制反应速率", "反应速率可通过控制液体滴加的速度来调节")
+        == 1.0
+    )
 
-    assert chemistry_verifier.judge("通过控制滴加稀盐酸的速度，可以调节锌与酸反应产生氢气的速率", 
-                                "调节稀盐酸滴加的快慢能控制锌与稀盐酸反应时氢气生成的速度") == 1.0
+    assert (
+        chemistry_verifier.judge(
+            "通过控制滴加稀盐酸的速度，可以调节锌与酸反应产生氢气的速率",
+            "调节稀盐酸滴加的快慢能控制锌与稀盐酸反应时氢气生成的速度",
+        )
+        == 1.0
+    )
 
-    assert chemistry_verifier.judge("向锌中滴加稀盐酸，通过控制滴加速度可以控制反应速率", 
-                                    "锌与稀盐酸反应时，调节酸的滴加速度能调控氢气产生的快慢") == 1.0
+    assert (
+        chemistry_verifier.judge(
+            "向锌中滴加稀盐酸，通过控制滴加速度可以控制反应速率",
+            "锌与稀盐酸反应时，调节酸的滴加速度能调控氢气产生的快慢",
+        )
+        == 1.0
+    )
 
-    assert chemistry_verifier.judge("锌与稀盐酸反应过程中，可以通过滴加酸液的快慢来控制氢气生成的速度", 
-                                    "反应中控制酸的滴加速度可以调节氢气的产生速率") == 1.0
+    assert (
+        chemistry_verifier.judge(
+            "锌与稀盐酸反应过程中，可以通过滴加酸液的快慢来控制氢气生成的速度",
+            "反应中控制酸的滴加速度可以调节氢气的产生速率",
+        )
+        == 1.0
+    )
 
-    assert chemistry_verifier.judge("调节酸液滴入锌粒的速度，可以影响氢气的生成速率", 
-                                    "通过控制酸液加入速度，能调节锌和酸反应的快慢") == 1.0
-
-
-
-
-
+    assert (
+        chemistry_verifier.judge(
+            "调节酸液滴入锌粒的速度，可以影响氢气的生成速率", "通过控制酸液加入速度，能调节锌和酸反应的快慢"
+        )
+        == 1.0
+    )

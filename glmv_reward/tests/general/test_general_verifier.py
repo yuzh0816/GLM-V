@@ -11,16 +11,16 @@
 #     assert general_verifier.judge("B", "B", question=question) == 1.0
 #     assert general_verifier.judge("C", "C", question=question) == 1.0
 #     assert general_verifier.judge("D", "D", question=question) == 1.0
-    
+
 #     # Test case insensitivity for letter options
 #     assert general_verifier.judge("a", "A", question=question) == 1.0
 #     assert general_verifier.judge("b", "B", question=question) == 1.0
-    
+
 #     # Test multiple choice with number options
 #     question_num = "What is 2+2?\n(1) 3\n(2) 4\n(3) 5\n(4) 6"
 #     assert general_verifier.judge("2", "2", question=question_num) == 1.0
 #     assert general_verifier.judge("4", "4", question=question_num) == 0.0  # Wrong answer
-    
+
 #     # Test multiple choice with spaces and formatting
 #     assert general_verifier.judge(" A ", "A", question=question) == 1.0
 #     assert general_verifier.judge("(A)", "A", question=question) == 1.0
@@ -66,8 +66,8 @@
 #     assert general_verifier.judge("paris", "Paris", question=question) == 1.0  # Case insensitive
 #     assert general_verifier.judge("Paris, France", "Paris", question=question) == 1.0  # Extra info
 #     assert general_verifier.judge("London", "Paris", question=question) == 0.0  # Wrong answer
-    
-    
+
+
 # def test_general_verifier_judge_chinese_literature(general_verifier):
 #     # Test Chinese literature questions
 #     question = "《红楼梦》的作者是谁？"
@@ -123,7 +123,7 @@
 #     assert general_verifier.judge("鄱阳湖", "鄱阳湖", question=question) == 1.0
 #     assert general_verifier.judge("江西鄱阳湖", "鄱阳湖", question=question) == 1.0  # Extra info
 #     assert general_verifier.judge("洞庭湖", "鄱阳湖", question=question) == 0.0  # Wrong answer
-    
+
 
 # def test_general_verifier_judge_common_sense(general_verifier):
 #     # Test common sense questions
@@ -245,7 +245,7 @@
 #     answer = "分布式账本技术，具有去中心化、不可篡改的特点"
 #     assert general_verifier.judge(answer, answer, question=question) == 1.0
 #     assert general_verifier.judge("一种铁链条，跟区块相关", answer, question=question) == 0.0
-    
+
 # def test_general_verifier_judge_family_relations(general_verifier):
 #     # Test family relations questions
 #     question = "妈妈的妈妈叫什么？"

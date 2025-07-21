@@ -88,27 +88,27 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
 
 模型推理代码均在 `inference` 文件夹中，包含了:
 
-+ `trans_infer_cli.py`: 使用`transformers`库作为推理后端的命令行交互脚本。你可以使用它进行连续对话。
-+ `trans_infer_gradio.py`: 使用`transformers`库作为推理后段的 Gradio 界面脚本，搭建一个可以直接使用的 Web
+- `trans_infer_cli.py`: 使用`transformers`库作为推理后端的命令行交互脚本。你可以使用它进行连续对话。
+- `trans_infer_gradio.py`: 使用`transformers`库作为推理后段的 Gradio 界面脚本，搭建一个可以直接使用的 Web
   界面，支持图片，视频，PDF，PPT等多模态输入。
-+ 使用`vllm`直接拉起`OpenAI`格式的API服务。并在`vllm_api_request.py`中提供了一个简单的请求示例。
+- 使用`vllm`直接拉起`OpenAI`格式的API服务。并在`vllm_api_request.py`中提供了一个简单的请求示例。
 
     ```shell
   vllm serve THUDM/GLM-4.1V-9B-Thinking --limit-mm-per-prompt '{"image":32}'   --allowed-local-media-path /
     ```
 
-  + `limit-mm-per-prompt`若不指定，只支持1张图片。模型支持最多1个视频或300张图片输入，不支持图片和视频同时输入。
-  + `allowed-local-media-path` 需要指定允许访问多模态图片的路径。
+  - `limit-mm-per-prompt`若不指定，只支持1张图片。模型支持最多1个视频或300张图片输入，不支持图片和视频同时输入。
+  - `allowed-local-media-path` 需要指定允许访问多模态图片的路径。
 
-+ `trans_infer_bench`：用于学术复现的推理脚本，支持`GLM-4.1V-9B-Thinking`模型。其核心在于
-  + 指定了中断思考的长度，当思考长度超过`8192`时，强制中断思考并补上`</think><answer>`
+- `trans_infer_bench`：用于学术复现的推理脚本，支持`GLM-4.1V-9B-Thinking`模型。其核心在于
+  - 指定了中断思考的长度，当思考长度超过`8192`时，强制中断思考并补上`</think><answer>`
     再次发起请求，让模型直接输出答案。该例子中使用的一个视频作为输入的测试的例子。其他情况需自行修改。
-  + 该方案仅提供 `transformers` 版本，vLLM版本需要自行根据该逻辑修改方案。
+  - 该方案仅提供 `transformers` 版本，vLLM版本需要自行根据该逻辑修改方案。
 
-+ `vllm_request_gui_agent.py`: 该脚本展现了用于 GUI Agent时对于模型返回的处理和构建提示词方案,
+- `vllm_request_gui_agent.py`: 该脚本展现了用于 GUI Agent时对于模型返回的处理和构建提示词方案,
   包含手机，电脑和网页端的策略，可集成到您的应用框架。GUI Agent详细文档请查看[这里](resources/agent_zh.md)
 
-+ 使用 Ascend NPU 设备推理，可查看 [这里](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md)
+- 使用 Ascend NPU 设备推理，可查看 [这里](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md)
 
 ## 模型微调
 
@@ -151,8 +151,8 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
 
 ## 模型协议
 
-+ 本仓库代码遵循[Apache License 2.0](LICENSE)协议。
-+ GLM-4.1V-9B-Thinking 和 GLM-4.1V-9B-Base 模型均采用 MIT协议。
+- 本仓库代码遵循[Apache License 2.0](LICENSE)协议。
+- GLM-4.1V-9B-Thinking 和 GLM-4.1V-9B-Base 模型均采用 MIT协议。
 
 ## 引用论文
 

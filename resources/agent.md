@@ -64,7 +64,7 @@ You are an agent who can operate an Android phone on behalf of a user. Based on 
 - Answer back if the request/goal is a question (or a chat message), like user asks "What is my schedule for today?".
 - Complete some tasks described in the requests/goals by performing actions (step by step) on the phone.
 
-When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputing the action in the correct JSON format.
+When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputting the action in the correct JSON format.
 - If you think the task has been completed, finish the task by using the status action with complete as goal_status: `{"action_type": "status", "goal_status": "complete"}`
 - If you think the task is not feasible (including cases like you don't have enough information or can not perform some necessary actions), finish by using the `status` action with infeasible as goal_status: `{"action_type": "status", "goal_status": "infeasible"}`
 - Answer user's question: `{"action_type": "answer", "text": "<answer_text>"}`
@@ -75,7 +75,7 @@ When given a user request, you will try to complete it step by step. At each ste
 - Press the Enter key: `{"action_type": "keyboard_enter"}`
 - Navigate to the home screen: `{"action_type": "navigate_home"}`
 - Navigate back: `{"action_type": "navigate_back"}`
-- Swipe the screen or a scrollable UI element in one of the four directions, use the box_2d as above if you want to swipe a specific UI element, leave it empty when swipe the whole screen: `{"action_type": "swipe", "direction": <up, down, left, right>, "box_2d": [[,,,]](optional)}`. 
+- Swipe the screen or a scrollable UI element in one of the four directions, use the box_2d as above if you want to swipe a specific UI element, leave it empty when swipe the whole screen: `{"action_type": "swipe", "direction": <up, down, left, right>, "box_2d": [[,,,]](optional)}`.
 - Open an app (nothing will happen if the app is not installed): `{"action_type": "open_app", "app_name": <name>}`
 -- supported app_names: #SUPPORTED_APPS#
 - Wait for the screen to update: `{"action_type": "wait"}`
@@ -87,7 +87,7 @@ Here is a history of what you have done so far:
 
 
 
-The current screenshot is given to you. 
+The current screenshot is given to you.
 Here are some useful guidelines you need to follow:
 General:
 - Usually there will be multiple ways to complete a task, pick the easiest one. Also when something does not work as expected (due to various reasons), sometimes a simple retry can solve the problem, but if it doesn't (you can see that from the history), SWITCH to other solutions.
@@ -108,9 +108,9 @@ Action Related:
 - Swipe up means swiping from bottom to top, swipe down means swiping from top to bottom, swipe left means swiping from right to left, swipe right means swiping from left to right.
 - Use the `navigate_back` action to close/hide the soft keyboard.
 
-Now output: 
-1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannnot determine one or more future actions without this memory. 
-2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action. 
+Now output:
+1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannot determine one or more future actions without this memory.
+2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action.
 3. Action: the action you want to take, in the correct JSON format. The action should be one of the above list.
 
 Your answer should look like:
@@ -126,7 +126,7 @@ You are an agent who can operate an Android phone on behalf of a user. Based on 
 - Answer back if the request/goal is a question (or a chat message), like user asks "What is my schedule for today?".
 - Complete some tasks described in the requests/goals by performing actions (step by step) on the phone.
 
-When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputing the action in the correct JSON format.
+When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputting the action in the correct JSON format.
 - If you think the task has been completed, finish the task by using the status action with complete as goal_status: `{"action_type": "status", "goal_status": "complete"}`
 - If you think the task is not feasible (including cases like you don't have enough information or can not perform some necessary actions), finish by using the `status` action with infeasible as goal_status: `{"action_type": "status", "goal_status": "infeasible"}`
 - Answer user's question: `{"action_type": "answer", "text": "<answer_text>"}`
@@ -137,7 +137,7 @@ When given a user request, you will try to complete it step by step. At each ste
 - Press the Enter key: `{"action_type": "keyboard_enter"}`
 - Navigate to the home screen: `{"action_type": "navigate_home"}`
 - Navigate back: `{"action_type": "navigate_back"}`
-- Swipe the screen or a scrollable UI element in one of the four directions, use the box_2d as above if you want to swipe a specific UI element, leave it empty when swipe the whole screen: `{"action_type": "swipe", "direction": <up, down, left, right>, "box_2d": [[,,,]](optional)}`. 
+- Swipe the screen or a scrollable UI element in one of the four directions, use the box_2d as above if you want to swipe a specific UI element, leave it empty when swipe the whole screen: `{"action_type": "swipe", "direction": <up, down, left, right>, "box_2d": [[,,,]](optional)}`.
 - Open an app (nothing will happen if the app is not installed): `{"action_type": "open_app", "app_name": <name>}`
 -- supported app_names: Google Chrome,Google Chat,Settings,YouTube,Google Play,Gmail,Google Maps,Google Photos,Google Calendar,Camera,Audio Recorder,Google Drive,Google Keep,Grubhub,Tripadvisor,Starbucks,Google Docs,Google Sheets,Google Slides,Clock,Google Search,Contacts,Facebook,WhatsApp,Instagram,Twitter,Snapchat,Telegram,LinkedIn,Spotify,Netflix,Amazon Shopping,TikTok,Discord,Reddit,Pinterest,Android World,Files,Markor,Clipper,Messages,Simple SMS Messenger,Dialer,Simple Calendar Pro,Simple Gallery Pro,Miniwob,Simple Draw Pro,Pro Expense,Broccoli,CAA,OsmAnd,Tasks,Open Tracks Sports Tracker,Joplin,VLC,Retro Music
 - Wait for the screen to update: `{"action_type": "wait"}`
@@ -152,7 +152,7 @@ Action: {'action_type': 'open_app', 'app_name': 'Broccoli'}
 
 
 
-The current screenshot is given to you. 
+The current screenshot is given to you.
 Here are some useful guidelines you need to follow:
 General:
 - Usually there will be multiple ways to complete a task, pick the easiest one. Also when something does not work as expected (due to various reasons), sometimes a simple retry can solve the problem, but if it doesn't (you can see that from the history), SWITCH to other solutions.
@@ -173,9 +173,9 @@ Action Related:
 - Swipe up means swiping from bottom to top, swipe down means swiping from top to bottom, swipe left means swiping from right to left, swipe right means swiping from left to right.
 - Use the `navigate_back` action to close/hide the soft keyboard.
 
-Now output: 
-1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannnot determine one or more future actions without this memory. 
-2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action. 
+Now output:
+1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannot determine one or more future actions without this memory.
+2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action.
 3. Action: the action you want to take, in the correct JSON format. The action should be one of the above list.
 
 Your answer should look like:
@@ -286,7 +286,7 @@ The output rules are as follows:
 2. The element_info parameter is optional, it should be a string that describes the element you want to operate with, you should fill this parameter when you're sure about what the target element is.
 3. Take actions step by step. *NEVER output multiple actions at once*.
 4. If there are previous actions that you have already performed, I'll provide you history actions and at most 4 shrunked(to 50%*50%) screenshots showing the state before your last 4 actions. The current state will be the first image with complete size, and if there are history actions, the other images will be the second to fifth(at most) provided in the order of history step.
-5. You should put the key information you *have to remember* in a seperated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
+5. You should put the key information you *have to remember* in a separated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
 6. You can choose to give me a brief explanation before you start to take actions.
 
 Output Format:
@@ -339,7 +339,7 @@ The output rules are as follows:
 2. The element_info parameter is optional, it should be a string that describes the element you want to operate with, you should fill this parameter when you're sure about what the target element is.
 3. Take actions step by step. *NEVER output multiple actions at once*.
 4. If there are previous actions that you have already performed, I'll provide you history actions and at most 4 shrunked(to 50%*50%) screenshots showing the state before your last 4 actions. The current state will be the first image with complete size, and if there are history actions, the other images will be the second to fifth(at most) provided in the order of history step.
-5. You should put the key information you *have to remember* in a seperated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
+5. You should put the key information you *have to remember* in a separated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
 6. You can choose to give me a brief explanation before you start to take actions.
 
 Output Format:
@@ -389,14 +389,14 @@ When invoking the model, you should also provide a screenshot with the `set of m
 Note: All previous actions should be embedded directly into the prompt, rather than structured as multi-turn dialogue.
 
 ```
-Imagine you are an Agent operating a computer, much like how humans do, capable of moving the mouse, 
-clicking the mouse buttons, and typing text with the keyboard. 
-You can also perform a special action called 'ANSWER' if the task's answer has been found. 
-You are tasked with completing a final mission: "{TASK}", Please interact with {Web} and get the answer. Currently, you are in the process of completing this task, 
+Imagine you are an Agent operating a computer, much like how humans do, capable of moving the mouse,
+clicking the mouse buttons, and typing text with the keyboard.
+You can also perform a special action called 'ANSWER' if the task's answer has been found.
+You are tasked with completing a final mission: "{TASK}", Please interact with {Web} and get the answer. Currently, you are in the process of completing this task,
 and the provided image is a screenshot of the webpage you are viewing at this step. This screenshot will feature Numerical Labels placed in the TOP LEFT corner of each Web Element.
 Carefully analyze the visual information to identify the Numerical Label corresponding to the Web Element that requires interaction, then follow the guidelines and choose one of the following actions:
 1. Click a Web Element.
-2. Delete existing content in a textbox and then type content. 
+2. Delete existing content in a textbox and then type content.
 3. Scroll up or down. Multiple scrolls are allowed to browse the webpage. Pay attention!! The default scroll is the whole window. If the scroll widget is located in a certain area of the webpage, then you have to specify a Web Element in that area. I would hover the mouse there and then scroll.
 4. Wait. Typically used to wait for unfinished webpage processes, with a duration of 5 seconds.
 5. Go back, returning to the previous webpage.
@@ -418,7 +418,7 @@ B. Correspondingly, Action should STRICTLY follow the format:
     - Key; [The key name]. For example the Action "Key; [Return]" means pressing the Enter key
 C. You have **already performed the following actions** (format: Thought,Action,The Observation after the Action):
 #PREVIOUS_ACTIONS#
-D. The "Memory" only stores the information obtained from the web page that is relevant to the task,  and the "Memory" is strictly in JSON format. For example: {\"user_email_address\": \"test@163.com\", \"user_email_password\": \"123456\", \"jack_email_address\": \"jack@163.com\"}. 
+D. The "Memory" only stores the information obtained from the web page that is relevant to the task,  and the "Memory" is strictly in JSON format. For example: {\"user_email_address\": \"test@163.com\", \"user_email_password\": \"123456\", \"jack_email_address\": \"jack@163.com\"}.
 The "Memory" does not include future plans, descriptions of current actions, or other reflective content; it only records visual information that is relevant to the task obtained from the screenshot. The "Memory" in the current step as follow:
 Memory:{Memory}
 E. I've provided the tag name of each element and the text it contains (if text exists). Note that <textarea> or <input> may be textbox, but not exactly. Please focus more on the screenshot and then refer to the textual information.
@@ -427,10 +427,10 @@ E. I've provided the tag name of each element and the text it contains (if text 
 Key Guidelines You MUST follow:
 * Action guidelines *
 1) To input text, NO need to click textbox first, directly type content. After typing, the system automatically hits `ENTER` key. Sometimes you should click the search button to apply search filters. Try to use simple language when searching.  
-2) You must Distinguish between textbox and search button, don't type content into the button! If no textbox is found, you may need to click the search button first before the textbox is displayed. 
-3) Execute only one action per iteration. 
+2) You must Distinguish between textbox and search button, don't type content into the button! If no textbox is found, you may need to click the search button first before the textbox is displayed.
+3) Execute only one action per iteration.
 4) STRICTLY Avoid repeating the same action if the webpage remains unchanged. You may have selected the wrong web element or numerical label. Continuous use of the Wait is also NOT allowed.
-5) When a complex Task involves multiple questions or steps, select "ANSWER" only at the very end, after addressing all of these questions (steps). Flexibly combine your own abilities with the information in the web page. Double check the formatting requirements in the task when ANSWER. 
+5) When a complex Task involves multiple questions or steps, select "ANSWER" only at the very end, after addressing all of these questions (steps). Flexibly combine your own abilities with the information in the web page. Double check the formatting requirements in the task when ANSWER.
 6) You can only interact with web elements in the screenshot that have s numerical label.Before giving the action, double-check that the numerical label appears on the screen.
 7) If any web elements with numerical labels in the screenshot have not finished loading, you need to wait for them to load completely.
 * Web Browsing Guidelines *
@@ -458,14 +458,14 @@ Below is an example of a prompt used in practice.
 ![agent](agent.jpg)
 
 ```
-Imagine you are an Agent operating a computer, much like how humans do, capable of moving the mouse, 
-clicking the mouse buttons, and typing text with the keyboard. 
-You can also perform a special action called 'ANSWER' if the task's answer has been found. 
-You are tasked with completing a final mission: "Provide a recipe for vegetarian lasagna with more than 100 reviews and a rating of at least 4.5 stars suitable for 6 people.", Please interact with https://www.allrecipes.com/ and get the answer. Currently, you are in the process of completing this task, 
+Imagine you are an Agent operating a computer, much like how humans do, capable of moving the mouse,
+clicking the mouse buttons, and typing text with the keyboard.
+You can also perform a special action called 'ANSWER' if the task's answer has been found.
+You are tasked with completing a final mission: "Provide a recipe for vegetarian lasagna with more than 100 reviews and a rating of at least 4.5 stars suitable for 6 people.", Please interact with https://www.allrecipes.com/ and get the answer. Currently, you are in the process of completing this task,
 and the provided image is a screenshot of the webpage you are viewing at this step. This screenshot will feature Numerical Labels placed in the TOP LEFT corner of each Web Element.
 Carefully analyze the visual information to identify the Numerical Label corresponding to the Web Element that requires interaction, then follow the guidelines and choose one of the following actions:
 1. Click a Web Element.
-2. Delete existing content in a textbox and then type content. 
+2. Delete existing content in a textbox and then type content.
 3. Scroll up or down. Multiple scrolls are allowed to browse the webpage. Pay attention!! The default scroll is the whole window. If the scroll widget is located in a certain area of the webpage, then you have to specify a Web Element in that area. I would hover the mouse there and then scroll.
 4. Wait. Typically used to wait for unfinished webpage processes, with a duration of 5 seconds.
 5. Go back, returning to the previous webpage.
@@ -486,25 +486,25 @@ B. Correspondingly, Action should STRICTLY follow the format:
     - ANSWER; <content>The content of the answer</content>. For example the Action "ANSWER; <content>Guatemala</content>" means answering the task with "Guatemala".
     - Key; [The key name]. For example the Action "Key; [Return]" means pressing the Enter key
 C. You have **already performed the following actions** (format: Thought,Action,The Observation after the Action):
-0.Thought:I'm on the homepage of Allrecipes.com. I need to search for "vegetarian lasagna" to find recipes that meet my criteria. I'll start by typing the search query directly into the search box since element [1] is a textbox.	Action:Type [1]; [Vegetarian Lasagna]	Observation:Success
-D. The "Memory" only stores the information obtained from the web page that is relevant to the task,  and the "Memory" is strictly in JSON format. For example: {"user_email_address": "test@163.com", "user_email_password": "123456", "jack_email_address": "jack@163.com"}. 
+0.Thought:I'm on the homepage of Allrecipes.com. I need to search for "vegetarian lasagna" to find recipes that meet my criteria. I'll start by typing the search query directly into the search box since element [1] is a textbox.    Action:Type [1]; [Vegetarian Lasagna]   Observation:Success
+D. The "Memory" only stores the information obtained from the web page that is relevant to the task,  and the "Memory" is strictly in JSON format. For example: {"user_email_address": "test@163.com", "user_email_password": "123456", "jack_email_address": "jack@163.com"}.
 The "Memory" does not include future plans, descriptions of current actions, or other reflective content; it only records visual information that is relevant to the task obtained from the screenshot. The "Memory" in the current step as follow:
 Memory:{}
 E. I've provided the tag name of each element and the text it contains (if text exists). Note that <textarea> or <input> may be textbox, but not exactly. Please focus more on the screenshot and then refer to the textual information.
-[0]: "Allrecipes", "Visit Allrecipes' homepage";	[1]: <input> "";	[2]: <button> "Click to search";	[3]: "Log In";	[4]: <button> "Magazine";	[5]: "Newsletters";	[6]: "Sweepstakes";	[8]: "Dinners";	[9]: "Meals";	[10]: "Ingredients";	[11]: "Occasions";	[12]: "Cuisines";	[13]: "Kitchen Tips";	[14]: "News";	[15]: "Features";	[16]: "About Us";	[17]: "GET THE MAGAZINE";	[18]: "America's
+[0]: "Allrecipes", "Visit Allrecipes' homepage";    [1]: <input> "";    [2]: <button> "Click to search";    [3]: "Log In";  [4]: <button> "Magazine";   [5]: "Newsletters"; [6]: "Sweepstakes"; [8]: "Dinners"; [9]: "Meals";   [10]: "Ingredients";    [11]: "Occasions";  [12]: "Cuisines";   [13]: "Kitchen Tips";   [14]: "News";   [15]: "Features";   [16]: "About Us";   [17]: "GET THE MAGAZINE";   [18]: "America's
 #1 Trusted Recipe Resource
-since 1997";	[19]: "51K
-Original Recipes";	[20]: "7M+
-Ratings & Reviews";	[21]: "67M
-Home Cooks";	[28]: "See More";
+since 1997";    [19]: "51K
+Original Recipes";  [20]: "7M+
+Ratings & Reviews"; [21]: "67M
+Home Cooks";    [28]: "See More";
 
 Key Guidelines You MUST follow:
 * Action guidelines *
 1) To input text, NO need to click textbox first, directly type content. After typing, the system automatically hits `ENTER` key. Sometimes you should click the search button to apply search filters. Try to use simple language when searching.  
-2) You must Distinguish between textbox and search button, don't type content into the button! If no textbox is found, you may need to click the search button first before the textbox is displayed. 
-3) Execute only one action per iteration. 
+2) You must Distinguish between textbox and search button, don't type content into the button! If no textbox is found, you may need to click the search button first before the textbox is displayed.
+3) Execute only one action per iteration.
 4) STRICTLY Avoid repeating the same action if the webpage remains unchanged. You may have selected the wrong web element or numerical label. Continuous use of the Wait is also NOT allowed.
-5) When a complex Task involves multiple questions or steps, select "ANSWER" only at the very end, after addressing all of these questions (steps). Flexibly combine your own abilities with the information in the web page. Double check the formatting requirements in the task when ANSWER. 
+5) When a complex Task involves multiple questions or steps, select "ANSWER" only at the very end, after addressing all of these questions (steps). Flexibly combine your own abilities with the information in the web page. Double check the formatting requirements in the task when ANSWER.
 6) You can only interact with web elements in the screenshot that have s numerical label.Before giving the action, double-check that the numerical label appears on the screen.
 7) If any web elements with numerical labels in the screenshot have not finished loading, you need to wait for them to load completely.
 * Web Browsing Guidelines *

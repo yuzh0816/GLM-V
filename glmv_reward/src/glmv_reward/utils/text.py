@@ -119,12 +119,12 @@ def find_boxed_content(text: str, begin_token: str = _BEGIN_OF_BOX, end_token: s
 def detect_long_paragraph_mixing(text: str, min_chinese_chars: int = 50, min_english_words: int = 200) -> bool:
     """
     Detect whether text contains both long Chinese paragraphs and long English paragraphs.
-    
+
     Args:
         text: Input text to analyze
         min_chinese_chars: Minimum character count threshold for Chinese paragraphs
         min_english_words: Minimum word count threshold for English paragraphs
-        
+
     Returns:
         bool: True if long paragraph mixing is detected
     """

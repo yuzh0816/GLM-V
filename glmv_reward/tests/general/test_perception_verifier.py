@@ -1,8 +1,10 @@
 # tests/verifiers/test_perception_verifier.py
 import pytest
+
 from glmv_reward.verifiers import GeneralVerifier
 
 # 测试列举
+
 
 def test_insufficient_information_and_general(math_verifier):
     question1 = "What is the measure of angle GIY as annotated?"
@@ -25,6 +27,3 @@ def test_insufficient_information_and_general(math_verifier):
 
     question7 = "请说明思路：与图中UK连线平行的线为？请说明思路。"
     assert math_verifier.judge("XY连线", "图中所有与UK连线方向相同的竖直线段}", question7) == 0.0
-
-    
-

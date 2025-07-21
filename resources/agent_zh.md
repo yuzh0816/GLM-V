@@ -53,7 +53,7 @@ You are an agent who can operate an Android phone on behalf of a user. Based on 
 - Answer back if the request/goal is a question (or a chat message), like user asks "What is my schedule for today?".
 - Complete some tasks described in the requests/goals by performing actions (step by step) on the phone.
 
-When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputing the action in the correct JSON format.
+When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputting the action in the correct JSON format.
 - If you think the task has been completed, finish the task by using the status action with complete as goal_status: `{"action_type": "status", "goal_status": "complete"}`
 - If you think the task is not feasible (including cases like you don't have enough information or can not perform some necessary actions), finish by using the `status` action with infeasible as goal_status: `{"action_type": "status", "goal_status": "infeasible"}`
 - Answer user's question: `{"action_type": "answer", "text": "<answer_text>"}`
@@ -98,7 +98,7 @@ Action Related:
 - Use the `navigate_back` action to close/hide the soft keyboard.
 
 Now output: 
-1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannnot determine one or more future actions without this memory. 
+1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannot determine one or more future actions without this memory. 
 2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action. 
 3. Action: the action you want to take, in the correct JSON format. The action should be one of the above list.
 
@@ -115,7 +115,7 @@ You are an agent who can operate an Android phone on behalf of a user. Based on 
 - Answer back if the request/goal is a question (or a chat message), like user asks "What is my schedule for today?".
 - Complete some tasks described in the requests/goals by performing actions (step by step) on the phone.
 
-When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputing the action in the correct JSON format.
+When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputting the action in the correct JSON format.
 - If you think the task has been completed, finish the task by using the status action with complete as goal_status: `{"action_type": "status", "goal_status": "complete"}`
 - If you think the task is not feasible (including cases like you don't have enough information or can not perform some necessary actions), finish by using the `status` action with infeasible as goal_status: `{"action_type": "status", "goal_status": "infeasible"}`
 - Answer user's question: `{"action_type": "answer", "text": "<answer_text>"}`
@@ -163,7 +163,7 @@ Action Related:
 - Use the `navigate_back` action to close/hide the soft keyboard.
 
 Now output: 
-1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannnot determine one or more future actions without this memory. 
+1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannot determine one or more future actions without this memory. 
 2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action. 
 3. Action: the action you want to take, in the correct JSON format. The action should be one of the above list.
 
@@ -249,7 +249,7 @@ The output rules are as follows:
 2. The element_info parameter is optional, it should be a string that describes the element you want to operate with, you should fill this parameter when you're sure about what the target element is.
 3. Take actions step by step. *NEVER output multiple actions at once*.
 4. If there are previous actions that you have already performed, I'll provide you history actions and at most 4 shrunked(to 50%*50%) screenshots showing the state before your last 4 actions. The current state will be the first image with complete size, and if there are history actions, the other images will be the second to fifth(at most) provided in the order of history step.
-5. You should put the key information you *have to remember* in a seperated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
+5. You should put the key information you *have to remember* in a separated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
 6. You can choose to give me a brief explanation before you start to take actions.
 
 Output Format:
@@ -302,7 +302,7 @@ The output rules are as follows:
 2. The element_info parameter is optional, it should be a string that describes the element you want to operate with, you should fill this parameter when you're sure about what the target element is.
 3. Take actions step by step. *NEVER output multiple actions at once*.
 4. If there are previous actions that you have already performed, I'll provide you history actions and at most 4 shrunked(to 50%*50%) screenshots showing the state before your last 4 actions. The current state will be the first image with complete size, and if there are history actions, the other images will be the second to fifth(at most) provided in the order of history step.
-5. You should put the key information you *have to remember* in a seperated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
+5. You should put the key information you *have to remember* in a separated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
 6. You can choose to give me a brief explanation before you start to take actions.
 
 Output Format:
@@ -446,17 +446,17 @@ B. Correspondingly, Action should STRICTLY follow the format:
     - ANSWER; <content>The content of the answer</content>. For example the Action "ANSWER; <content>Guatemala</content>" means answering the task with "Guatemala".
     - Key; [The key name]. For example the Action "Key; [Return]" means pressing the Enter key
 C. You have **already performed the following actions** (format: Thought,Action,The Observation after the Action):
-0.Thought:I'm on the homepage of Allrecipes.com. I need to search for "vegetarian lasagna" to find recipes that meet my criteria. I'll start by typing the search query directly into the search box since element [1] is a textbox.	Action:Type [1]; [Vegetarian Lasagna]	Observation:Success
+0.Thought:I'm on the homepage of Allrecipes.com. I need to search for "vegetarian lasagna" to find recipes that meet my criteria. I'll start by typing the search query directly into the search box since element [1] is a textbox.    Action:Type [1]; [Vegetarian Lasagna]   Observation:Success
 D. The "Memory" only stores the information obtained from the web page that is relevant to the task,  and the "Memory" is strictly in JSON format. For example: {"user_email_address": "test@163.com", "user_email_password": "123456", "jack_email_address": "jack@163.com"}. 
 The "Memory" does not include future plans, descriptions of current actions, or other reflective content; it only records visual information that is relevant to the task obtained from the screenshot. The "Memory" in the current step as follow:
 Memory:{}
 E. I've provided the tag name of each element and the text it contains (if text exists). Note that <textarea> or <input> may be textbox, but not exactly. Please focus more on the screenshot and then refer to the textual information.
-[0]: "Allrecipes", "Visit Allrecipes' homepage";	[1]: <input> "";	[2]: <button> "Click to search";	[3]: "Log In";	[4]: <button> "Magazine";	[5]: "Newsletters";	[6]: "Sweepstakes";	[8]: "Dinners";	[9]: "Meals";	[10]: "Ingredients";	[11]: "Occasions";	[12]: "Cuisines";	[13]: "Kitchen Tips";	[14]: "News";	[15]: "Features";	[16]: "About Us";	[17]: "GET THE MAGAZINE";	[18]: "America's
+[0]: "Allrecipes", "Visit Allrecipes' homepage";    [1]: <input> "";    [2]: <button> "Click to search";    [3]: "Log In";  [4]: <button> "Magazine";   [5]: "Newsletters"; [6]: "Sweepstakes"; [8]: "Dinners"; [9]: "Meals";   [10]: "Ingredients";    [11]: "Occasions";  [12]: "Cuisines";   [13]: "Kitchen Tips";   [14]: "News";   [15]: "Features";   [16]: "About Us";   [17]: "GET THE MAGAZINE";   [18]: "America's
 #1 Trusted Recipe Resource
-since 1997";	[19]: "51K
-Original Recipes";	[20]: "7M+
-Ratings & Reviews";	[21]: "67M
-Home Cooks";	[28]: "See More";
+since 1997";    [19]: "51K
+Original Recipes";  [20]: "7M+
+Ratings & Reviews"; [21]: "67M
+Home Cooks";    [28]: "See More";
 
 Key Guidelines You MUST follow:
 * Action guidelines *

@@ -1,28 +1,29 @@
 import argparse
 import base64
+import io
 import json
 import re
-import io
-from openai import OpenAI
 from pathlib import Path
+
+from openai import OpenAI
 from PIL import Image
 
 
 def encode_image_to_base64(image_path):
     with open(image_path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         ext = Path(image_path).suffix.lower()
-        if ext in ['.jpg', '.jpeg']:
-            mime_type = 'image/jpeg'
-        elif ext == '.png':
-            mime_type = 'image/png'
+        if ext in [".jpg", ".jpeg"]:
+            mime_type = "image/jpeg"
+        elif ext == ".png":
+            mime_type = "image/png"
         else:
-            mime_type = 'image/jpeg'
+            mime_type = "image/jpeg"
         return f"data:{mime_type};base64,{encoded_string}"
 
 
 def encode_image_bytes_to_base64(image_bytes: bytes) -> str:
-    return base64.b64encode(image_bytes).decode('utf-8')
+    return base64.b64encode(image_bytes).decode("utf-8")
 
 
 def build_history_images(history_images: list) -> list:
@@ -36,7 +37,7 @@ def build_history_images(history_images: list) -> list:
         target_width, target_height = original_width // 2, original_height // 2
         shrunked_image = image.resize((target_width, target_height))
         output_buffer = io.BytesIO()
-        shrunked_image.save(output_buffer, format='PNG')
+        shrunked_image.save(output_buffer, format="PNG")
         image_url = f"data:image/png;base64,{encode_image_bytes_to_base64(output_buffer.getvalue())}"
         shrunked_images.append(image_url)
 
@@ -55,22 +56,70 @@ def load_history_images_from_paths(history_image_paths: list) -> list:
 
 
 def get_mobile_prompt(task, history):
-    app_names = ["Google Chrome", "Google Chat", "Settings", "YouTube", "Google Play", "Gmail",
-                 "Google Maps", "Google Photos", "Google Calendar", "Camera", "Audio Recorder",
-                 "Google Drive", "Google Keep", "Grubhub", "Tripadvisor", "Starbucks", "Google Docs",
-                 "Google Sheets", "Google Slides", "Clock", "Google Search", "Contacts", "Facebook",
-                 "WhatsApp", "Instagram", "Twitter", "Snapchat", "Telegram", "LinkedIn", "Spotify",
-                 "Netflix", "Amazon Shopping", "TikTok", "Discord", "Reddit", "Pinterest",
-                 "Android World", "Files", "Markor", "Clipper", "Messages", "Simple SMS Messenger",
-                 "Dialer", "Simple Calendar Pro", "Simple Gallery Pro", "Miniwob", "Simple Draw Pro",
-                 "Pro Expense", "Broccoli", "CAA", "OsmAnd", "Tasks", "Open Tracks Sports Tracker",
-                 "Joplin", "VLC", "Retro Music"]
+    app_names = [
+        "Google Chrome",
+        "Google Chat",
+        "Settings",
+        "YouTube",
+        "Google Play",
+        "Gmail",
+        "Google Maps",
+        "Google Photos",
+        "Google Calendar",
+        "Camera",
+        "Audio Recorder",
+        "Google Drive",
+        "Google Keep",
+        "Grubhub",
+        "Tripadvisor",
+        "Starbucks",
+        "Google Docs",
+        "Google Sheets",
+        "Google Slides",
+        "Clock",
+        "Google Search",
+        "Contacts",
+        "Facebook",
+        "WhatsApp",
+        "Instagram",
+        "Twitter",
+        "Snapchat",
+        "Telegram",
+        "LinkedIn",
+        "Spotify",
+        "Netflix",
+        "Amazon Shopping",
+        "TikTok",
+        "Discord",
+        "Reddit",
+        "Pinterest",
+        "Android World",
+        "Files",
+        "Markor",
+        "Clipper",
+        "Messages",
+        "Simple SMS Messenger",
+        "Dialer",
+        "Simple Calendar Pro",
+        "Simple Gallery Pro",
+        "Miniwob",
+        "Simple Draw Pro",
+        "Pro Expense",
+        "Broccoli",
+        "CAA",
+        "OsmAnd",
+        "Tasks",
+        "Open Tracks Sports Tracker",
+        "Joplin",
+        "VLC",
+        "Retro Music",
+    ]
 
     prompt = f"""You are an agent who can operate an Android phone on behalf of a user. Based on user's goal/request, you may
 - Answer back if the request/goal is a question (or a chat message), like user asks "What is my schedule for today?".
 - Complete some tasks described in the requests/goals by performing actions (step by step) on the phone.
 
-When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputing the action in the correct JSON format.
+When given a user request, you will try to complete it step by step. At each step, you will be given the current screenshot (including the original screenshot and the same screenshot with bounding boxes and numeric indexes added to some UI elements) and a history of what you have done (in text). Based on these pieces of information and the goal, you must choose to perform one of the action in the following list (action description followed by the JSON format) by outputting the action in the correct JSON format.
 - If you think the task has been completed, finish the task by using the status action with complete as goal_status: `{{"action_type": "status", "goal_status": "complete"}}`
 - If you think the task is not feasible (including cases like you don't have enough information or can not perform some necessary actions), finish by using the `status` action with infeasible as goal_status: `{{"action_type": "status", "goal_status": "infeasible"}}`
 - Answer user's question: `{{"action_type": "answer", "text": "<answer_text>"}}`
@@ -83,7 +132,7 @@ When given a user request, you will try to complete it step by step. At each ste
 - Navigate back: `{{"action_type": "navigate_back"}}`
 - Swipe the screen or a scrollable UI element in one of the four directions, use the box_2d as above if you want to swipe a specific UI element, leave it empty when swipe the whole screen: `{{"action_type": "swipe", "direction": <up, down, left, right>, "box_2d": [[,,,]](optional)}}`. 
 - Open an app (nothing will happen if the app is not installed): `{{"action_type": "open_app", "app_name": <name>}}`
--- supported app_names: {','.join(app_names)}
+-- supported app_names: {",".join(app_names)}
 - Wait for the screen to update: `{{"action_type": "wait"}}`
 
 The current user goal/request is: {task}
@@ -123,7 +172,7 @@ Action Related:
 - Use the `navigate_back` action to close/hide the soft keyboard.
 
 Now output: 
-1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannnot determine one or more future actions without this memory. 
+1. Memory: important information you want to remember for the future actions. The memory should be only contents on the screen that will be used in the future actions. It should satisfy that: you cannot determine one or more future actions without this memory. 
 2. Reason: the reason for the action and the memory. Your reason should include, but not limited to:- the content of the GUI, especially elements that are tightly related to the user goal- the step-by-step thinking process of how you come up with the new action. 
 3. Action: the action you want to take, in the correct JSON format. The action should be one of the above list.
 
@@ -184,7 +233,7 @@ The output rules are as follows:
 2. The element_info parameter is optional, it should be a string that describes the element you want to operate with, you should fill this parameter when you're sure about what the target element is.
 3. Take actions step by step. *NEVER output multiple actions at once*.
 4. If there are previous actions that you have already performed, I'll provide you history actions and at most 4 shrunked(to 50%*50%) screenshots showing the state before your last 4 actions. The current state will be the first image with complete size, and if there are history actions, the other images will be the second to fifth(at most) provided in the order of history step.
-5. You should put the key information you *have to remember* in a seperated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
+5. You should put the key information you *have to remember* in a separated memory part and I'll give it to you in the next round. The content in this part should be a JSON list. If you no longer need some given information, you should remove it from the memory. Even if you don't need to remember anything, you should also output an empty <memory></memory> part.
 6. You can choose to give me a brief explanation before you start to take actions.
 
 Output Format:
@@ -283,18 +332,22 @@ def parse_mobile_response(response):
     reason = match.group(2).strip()
     action = match.group(3).strip()
 
-    if '<|begin_of_box|>' in action:
-        action = action[action.index('<|begin_of_box|>') + len('<|begin_of_box|>'):action.rindex('<|end_of_box|>')]
+    if "<|begin_of_box|>" in action:
+        action = action[
+            action.index("<|begin_of_box|>") + len("<|begin_of_box|>") : action.rindex(
+                "<|end_of_box|>"
+            )
+        ]
 
     parsed_action = None
-    if action.startswith('{'):
+    if action.startswith("{"):
         parsed_action = json.loads(action)
 
     return {
         "memory": memory,
         "reason": reason,
         "action": action,
-        "parsed_action": parsed_action
+        "parsed_action": parsed_action,
     }
 
 
@@ -313,8 +366,8 @@ def parse_pc_response(response):
     action_text = answer_match.group(1).strip() if answer_match else None
 
     if action_text:
-        boxed_pattern = r'<\|begin_of_box\|>(.*?)</\|end_of_box\|>'
-        action_text = re.sub(boxed_pattern, r'\1', action_text)
+        boxed_pattern = r"<\|begin_of_box\|>(.*?)</\|end_of_box\|>"
+        action_text = re.sub(boxed_pattern, r"\1", action_text)
 
     if "</answer>" in response:
         memory_pattern = r"Memory:(.*?)</answer>"
@@ -323,16 +376,12 @@ def parse_pc_response(response):
     memory_match = re.search(memory_pattern, response)
     memory = memory_match.group(1).strip() if memory_match else "[]"
 
-    return {
-        "action": action,
-        "action_text": action_text,
-        "memory": memory
-    }
+    return {"action": action, "action_text": action_text, "memory": memory}
 
 
 def parse_web_response(response):
-    pattern = r'Thought:|Action:|Memory_Updated:'
-    answer = re.findall(r'<answer>(.*?)</answer>', response, re.DOTALL)
+    pattern = r"Thought:|Action:|Memory_Updated:"
+    answer = re.findall(r"<answer>(.*?)</answer>", response, re.DOTALL)
     if not answer:
         return None
 
@@ -348,11 +397,7 @@ def parse_web_response(response):
     if memory_str:
         memory = json.loads(memory_str)
 
-    return {
-        "thought": thought,
-        "action": action,
-        "memory": memory
-    }
+    return {"thought": thought, "action": action, "memory": memory}
 
 
 def call_openai_api(messages, client, model="GLM-4.1V-Thinking-FlashX"):
@@ -370,72 +415,84 @@ def call_openai_api(messages, client, model="GLM-4.1V-Thinking-FlashX"):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=["mobile", "pc", "web"], required=True,
-                        help="Choose mode: mobile, pc, or web")
-    parser.add_argument("--api-url", default="https://open.bigmodel.cn/api/paas/v4",
-                        help="OpenAI compatible API endpoint (without /chat/completions)")
-    parser.add_argument("--api-key", default="dummy", help="API key (use 'dummy' for local vLLM)")
+    parser.add_argument(
+        "--mode",
+        choices=["mobile", "pc", "web"],
+        required=True,
+        help="Choose mode: mobile, pc, or web",
+    )
+    parser.add_argument(
+        "--api-url",
+        default="https://open.bigmodel.cn/api/paas/v4",
+        help="OpenAI compatible API endpoint (without /chat/completions)",
+    )
+    parser.add_argument(
+        "--api-key", default="dummy", help="API key (use 'dummy' for local vLLM)"
+    )
     parser.add_argument("--model", default="GLM-4.1V-9B-Thinking", help="Model name")
     parser.add_argument("--image-path", required=True, help="Path to screenshot image")
     parser.add_argument("--task", required=True, help="Task description")
     parser.add_argument("--history", default="[]", help="JSON string of history")
     parser.add_argument("--memory", default="[]", help="Memory for pc/web mode")
     parser.add_argument("--web-url", default="", help="Web URL for web mode")
-    parser.add_argument("--web-elements", default="", help="Web elements text for web mode")
-    parser.add_argument("--history-images", default="[]", help="JSON string of history image paths")
+    parser.add_argument(
+        "--web-elements", default="", help="Web elements text for web mode"
+    )
+    parser.add_argument(
+        "--history-images", default="[]", help="JSON string of history image paths"
+    )
 
     args = parser.parse_args()
 
     history = json.loads(args.history) if args.history != "[]" else []
     image_base64 = encode_image_to_base64(args.image_path)
 
-    history_image_paths = json.loads(args.history_images) if args.history_images != "[]" else []
+    history_image_paths = (
+        json.loads(args.history_images) if args.history_images != "[]" else []
+    )
     history_images_bytes = load_history_images_from_paths(history_image_paths)
     history_images_urls = build_history_images(history_images_bytes)
 
-    client = OpenAI(
-        base_url=args.api_url,
-        api_key=args.api_key
-    )
+    client = OpenAI(base_url=args.api_url, api_key=args.api_key)
 
     messages = []
     if args.mode == "mobile":
         prompt = get_mobile_prompt(args.task, history)
-        messages = [{
-            "role": "user",
-            "content": [
-                {"type": "image_url", "image_url": {"url": image_base64}},
-                {"type": "text", "text": prompt}
-            ]
-        }]
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": image_base64}},
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ]
 
     elif args.mode == "pc":
         prompt = get_pc_prompt(args.task, history, args.memory, history_images_urls)
-        message_content = [
-            {"type": "image_url", "image_url": {"url": image_base64}}
-        ]
+        message_content = [{"type": "image_url", "image_url": {"url": image_base64}}]
 
         for history_image_url in history_images_urls:
-            message_content.append({
-                "type": "image_url",
-                "image_url": {"url": history_image_url}
-            })
+            message_content.append(
+                {"type": "image_url", "image_url": {"url": history_image_url}}
+            )
 
         message_content.append({"type": "text", "text": prompt})
-        messages = [{
-            "role": "user",
-            "content": message_content
-        }]
+        messages = [{"role": "user", "content": message_content}]
 
     elif args.mode == "web":
-        prompt = get_web_prompt(args.task, args.web_url, args.web_elements, args.memory, history)
-        messages = [{
-            "role": "user",
-            "content": [
-                {"type": "image_url", "image_url": {"url": image_base64}},
-                {"type": "text", "text": prompt}
-            ]
-        }]
+        prompt = get_web_prompt(
+            args.task, args.web_url, args.web_elements, args.memory, history
+        )
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": image_base64}},
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ]
 
     response = call_openai_api(messages, client, args.model)
     if response:

@@ -100,31 +100,31 @@ models.
 
 All inference scripts are located in the `inference` folder and include:
 
-+ `trans_infer_cli.py`: A command-line interactive script using the `transformers` library as the backend. It supports
+- `trans_infer_cli.py`: A command-line interactive script using the `transformers` library as the backend. It supports
   multi-turn dialogue.
-+ `trans_infer_gradio.py`: A Gradio-based web UI script using the `transformers` backend. It supports multimodal inputs
+- `trans_infer_gradio.py`: A Gradio-based web UI script using the `transformers` backend. It supports multimodal inputs
   such as images, videos, PDFs, and PPTs.
-+ OpenAI-compatible API service with `vllm`, along with a simple request example provided in `vllm_api_request.py`.
+- OpenAI-compatible API service with `vllm`, along with a simple request example provided in `vllm_api_request.py`.
 
     ```shell
     vllm serve THUDM/GLM-4.1V-9B-Thinking --limit-mm-per-prompt '{"image":32}' --allowed-local-media-path /
     ```
 
-  + If `--limit-mm-per-prompt` is not specified, only 1 image is supported. The model supports a maximum of 1 video or
+  - If `--limit-mm-per-prompt` is not specified, only 1 image is supported. The model supports a maximum of 1 video or
     300 images per input — it does **not** support simultaneous image and video inputs.
-  + `--allowed-local-media-path` must be set to permit access to local multimodal inputs.
+  - `--allowed-local-media-path` must be set to permit access to local multimodal inputs.
 
-+ `trans_infer_bench`: Academic benchmarking script for inference with `GLM-4.1V-9B-Thinking`. Key features:
-  + Automatically interrupts thinking if it exceeds 8192 tokens and appends `</think><answer>` to prompt the model to
+- `trans_infer_bench`: Academic benchmarking script for inference with `GLM-4.1V-9B-Thinking`. Key features:
+  - Automatically interrupts thinking if it exceeds 8192 tokens and appends `</think><answer>` to prompt the model to
     generate a final answer.
-  + Demonstrates video-based input; for other modalities, modifications are required.
-  + Only a `transformers` version is provided. For `vLLM`, a custom implementation is needed to support this logic.
+  - Demonstrates video-based input; for other modalities, modifications are required.
+  - Only a `transformers` version is provided. For `vLLM`, a custom implementation is needed to support this logic.
 
-+ `vllm_request_gui_agent.py`: This script demonstrates how to handle model responses and construct prompts for GUI
+- `vllm_request_gui_agent.py`: This script demonstrates how to handle model responses and construct prompts for GUI
   Agent use cases. It covers strategies for mobile, desktop, and web environments, and can be integrated into your
   application framework. For detailed documentation about GUI Agent, please refer to [this file](resources/agent.md).
 
-+ For Ascend NPU Inference, Check [here](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md).
+- For Ascend NPU Inference, Check [here](https://gitee.com/ascend/MindSpeed-MM/tree/master/examples/glm4.1v/README.md).
 
 ## Model Fine-tuning
 
@@ -167,8 +167,8 @@ After preparing the dataset, you can proceed with fine-tuning using the standard
 
 ## Model License
 
-+ The code in this repository is released under the [Apache License 2.0](LICENSE).
-+ The models **GLM-4.1V-9B-Thinking** and **GLM-4.1V-9B-Base** are both licensed under the **MIT License**.
+- The code in this repository is released under the [Apache License 2.0](LICENSE).
+- The models **GLM-4.1V-9B-Thinking** and **GLM-4.1V-9B-Base** are both licensed under the **MIT License**.
 
 ## Citation
 

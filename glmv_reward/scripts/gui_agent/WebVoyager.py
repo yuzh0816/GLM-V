@@ -4,7 +4,8 @@ from typing import Any, Optional
 
 
 def extract_answer(response: str, question: Optional[str] = None) -> Optional[str]:
-    return re.findall(r'<\|begin_of_box\|>(.*?)<\|end_of_box\|>', response, re.DOTALL)[0]
+    return re.findall(r"<\|begin_of_box\|>(.*?)<\|end_of_box\|>", response, re.DOTALL)[0]
+
 
 def lcs(x, y):
     m = len(x)
@@ -18,13 +19,13 @@ def lcs(x, y):
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
     return dp[m][n]
 
+
 def judge(
     extracted_answer: Any,
     ground_truth: Any,
     question: Optional[str] = None,
-    image_path = None,
+    image_path=None,
 ) -> float:
-    
     def extract_information(text):
         # New format patterns
         new_patterns = {
@@ -33,9 +34,9 @@ def judge(
             "key": r"KEY_PRESS\(key='([^']*)'\)",
             "scroll_down": r"SCROLL_DOWN\(point=\((\d+),\s*(\d+)\)(?:,\s*box=\[\[([^\]]+)\]\])?(?:,\s*distance=([^,\)]+))?(?:,\s*element_info='([^']*)')?\)",
             "scroll_up": r"SCROLL_UP\(point=\((\d+),\s*(\d+)\)(?:,\s*box=\[\[([^\]]+)\]\])?(?:,\s*distance=([^,\)]+))?(?:,\s*element_info='([^']*)')?\)",
-            "answer": r"ANSWER\(content='([^']*)'\)"
+            "answer": r"ANSWER\(content='([^']*)'\)",
         }
-        
+
         # Try new format first
         for key, pattern in new_patterns.items():
             match = re.search(pattern, text, re.DOTALL)
@@ -45,47 +46,61 @@ def judge(
                     return "click", {"x": int(x), "y": int(y), "box": box, "element_info": element_info}
                 elif key == "type":
                     x, y, text_content, box, element_info = match.groups()
-                    return "type", {"x": int(x), "y": int(y), "text": text_content or "", "box": box, "element_info": element_info}
+                    return "type", {
+                        "x": int(x),
+                        "y": int(y),
+                        "text": text_content or "",
+                        "box": box,
+                        "element_info": element_info,
+                    }
                 elif key == "key":
                     key_name = match.group(1)
                     return "key", {"key": key_name}
                 elif key in ["scroll_down", "scroll_up"]:
                     x, y, box, distance, element_info = match.groups()
-                    return "scroll", {"x": int(x), "y": int(y), "box": box, "distance": distance, "element_info": element_info, "direction": key.split("_")[1]}
+                    return "scroll", {
+                        "x": int(x),
+                        "y": int(y),
+                        "box": box,
+                        "distance": distance,
+                        "element_info": element_info,
+                        "direction": key.split("_")[1],
+                    }
                 elif key == "answer":
                     content = match.group(1)
                     return "answer", {"content": content}
-        
+
         # Fall back to old format patterns
         old_patterns = {
             "click": r"Click \[?(\d+)\]?",
             "type": r"Type \[?(\d+)\]?[; ]+\[?(.[^\]]*)\]?",
-            "key":r"Key[; ]+\[?(.[^\]]*)\]?",
+            "key": r"Key[; ]+\[?(.[^\]]*)\]?",
             "scroll": r"Scroll \[?(\d+|WINDOW)\]?[; ]+\[?(up|down)\]?",
             "wait": r"^Wait",
             "goback": r"^GoBack",
             "google": r"^Google",
             "bing": r"^Bing",
-            "answer": r"ANSWER[; ]+<content>(.*?)</content>"
+            "answer": r"ANSWER[; ]+<content>(.*?)</content>",
         }
 
         for key, pattern in old_patterns.items():
             match = re.search(pattern, text, re.DOTALL)
             if match:
-                if key in ["click", "wait", "goback", "google","bing"]:
+                if key in ["click", "wait", "goback", "google", "bing"]:
                     # no content
                     return key, match.groups()
                 else:
-                    return key, {"number": match.group(1), "content": match.group(2)} if key in ["type", "scroll"] else {"content": match.group(1)}
+                    return key, {"number": match.group(1), "content": match.group(2)} if key in [
+                        "type",
+                        "scroll",
+                    ] else {"content": match.group(1)}
         return None, None
 
-
-    
     action, info = extract_information(extracted_answer)
-    gt_action, gt_info = extract_information(ground_truth) 
+    gt_action, gt_info = extract_information(ground_truth)
     if action != gt_action:
         return 0.0
-    
+
     if action == "click":
         # Handle new format
         if isinstance(info, dict) and isinstance(gt_info, dict):
@@ -107,13 +122,13 @@ def judge(
                 return 0.0
         else:
             return 0.0
-            
-    elif action=="type":
+
+    elif action == "type":
         # Handle new format
         if isinstance(info, dict) and isinstance(gt_info, dict) and "text" in info:
             input_text = info.get("text", "")
             gt_input_text = gt_info.get("text", "")
-            
+
             # Calculate text similarity
             if input_text == gt_input_text:
                 text_similarity = 1.0
@@ -121,7 +136,7 @@ def judge(
                 text_similarity = lcs(input_text, gt_input_text) / max(len(input_text), len(gt_input_text))
             else:
                 text_similarity = 0.0
-            
+
             # Check position match
             if info.get("x") == gt_info.get("x") and info.get("y") == gt_info.get("y"):
                 # Same position, return text similarity
@@ -131,22 +146,22 @@ def judge(
                 return text_similarity * 0.95 if text_similarity > 0.05 else 0.05
         # Handle old format
         elif isinstance(info, dict) and isinstance(gt_info, dict) and "number" in info:
-            type_ele_number = int(info['number'])
-            gt_type_ele_number = int(gt_info['number'])
-            input_text= info['content']
-            gt_input_text= gt_info['content']
+            type_ele_number = int(info["number"])
+            gt_type_ele_number = int(gt_info["number"])
+            input_text = info["content"]
+            gt_input_text = gt_info["content"]
             if type_ele_number == gt_type_ele_number:
                 return lcs(input_text, gt_input_text) / max(len(input_text), len(gt_input_text))
             else:
                 return 0.0
         else:
             return 0.0
-            
-    elif action=="key":
+
+    elif action == "key":
         # Handle new format
         if isinstance(info, dict) and isinstance(gt_info, dict) and "key" in info:
-            key_name = info['key'].lower()
-            gt_key_name = gt_info['key'].lower()
+            key_name = info["key"].lower()
+            gt_key_name = gt_info["key"].lower()
             if key_name == gt_key_name:
                 return 1.0
             # Handle equivalent keys
@@ -156,20 +171,23 @@ def judge(
                 return 0.0
         # Handle old format
         elif isinstance(info, dict) and isinstance(gt_info, dict) and "content" in info:
-            key_name = info['content'].lower()
-            gt_key_name = gt_info['content'].lower()
+            key_name = info["content"].lower()
+            gt_key_name = gt_info["content"].lower()
             if key_name == gt_key_name:
                 return 1.0
             else:
                 return 0.0
         else:
             return 0.0
-            
-    elif action=="scroll":
+
+    elif action == "scroll":
         # Handle new format
         if isinstance(info, dict) and isinstance(gt_info, dict) and "distance" in info:
-            if (info.get("x") == gt_info.get("x") and info.get("y") == gt_info.get("y") and 
-                info.get("direction") == gt_info.get("direction")):
+            if (
+                info.get("x") == gt_info.get("x")
+                and info.get("y") == gt_info.get("y")
+                and info.get("direction") == gt_info.get("direction")
+            ):
                 # Same position and direction, compare distance
                 try:
                     distance = float(info.get("distance", 0))
@@ -189,12 +207,12 @@ def judge(
                 return 0.0
         # Handle old format
         elif isinstance(info, dict) and isinstance(gt_info, dict) and "number" in info:
-            scroll_ele_number = info['number']
-            scroll_content = info['content']
-            gt_scroll_ele_number = gt_info['number']
-            gt_scroll_content = gt_info['content']
+            scroll_ele_number = info["number"]
+            scroll_content = info["content"]
+            gt_scroll_ele_number = gt_info["number"]
+            gt_scroll_content = gt_info["content"]
             if scroll_ele_number == gt_scroll_ele_number:
-                if scroll_content==gt_scroll_content:
+                if scroll_content == gt_scroll_content:
                     return 1.0
                 else:
                     return 0.0
@@ -202,19 +220,19 @@ def judge(
                 return 0.0
         else:
             return 0.0
-            
-    elif action=="wait":
+
+    elif action == "wait":
         return 1.0
-    elif action=="goback":
+    elif action == "goback":
         return 1.0
-    elif action=="google":
+    elif action == "google":
         return 1.0
-    elif action=="bing":
+    elif action == "bing":
         return 1.0
-    elif action=="answer":
+    elif action == "answer":
         if isinstance(info, dict) and isinstance(gt_info, dict):
-            answer_content = info.get('content', '')
-            gt_answer_content = gt_info.get('content', '')
+            answer_content = info.get("content", "")
+            gt_answer_content = gt_info.get("content", "")
             if answer_content == gt_answer_content:
                 return 1.0
             elif len(answer_content) > 0 and len(gt_answer_content) > 0:
