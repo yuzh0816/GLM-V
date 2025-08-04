@@ -215,7 +215,6 @@ FAIL()
         for idx, action in enumerate(history):
             history_actions += f"\nstep {idx + 1}: {action}"
 
-    # 处理历史图片信息
     history_note = ""
     if history_images and len(history_images) > 0:
         history_note = f"\nNote: You will also see {len(history_images)} recent historical screenshots (50% scaled) showing the states before your last {len(history_images)} actions. These are provided in chronological order to help you understand the context of your previous actions."
