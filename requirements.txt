@@ -1,10 +1,10 @@
 torchvision>=0.22.0
-gradio>=5.39.0
+accelerate>=1.10.0
+gradio>=5.42.0
 pre-commit>=4.2.0
 PyMuPDF>=1.26.3
 av>=15.0.0
-accelerate>=1.9.0
-spaces>=0.39.0
+spaces>=0.40.0
 # transformers>=4.56.0
 # vllm>=0.10.2
 # sglang>=0.4.11
