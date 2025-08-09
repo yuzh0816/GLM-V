@@ -1,3 +1,28 @@
+"""
+A Gradio web interface for chatting with GLM-4.1V-9B-Thinking and GLM-4.5V model (supports images, videos, PPT, and PDF).
+
+Examples:
+    # Launch locally
+    python trans_infer_gradio.py.py
+    # Launch with LAN access
+    python trans_infer_gradio.py.py --server_name 0.0.0.0
+    # Launch on custom port
+    python trans_infer_gradio.py.py --server_port 8888
+    # Enable Gradio share link
+    python trans_infer_gradio.py.py --share
+    # Enable MCP service
+    python trans_infer_gradio.py.py --mcp_server
+
+Notes:
+    - Supports up to 10 images or 1 video / PPT / PDF per conversation
+    - Cannot mix videos with images or documents in the same message
+    - PPT and PDF files are automatically converted to images before processing
+    - Uploaded media persists throughout the conversation and can be referenced later
+    - System prompt can be customized per session
+    - Click 'Clear' to reset conversation history
+    - The 'Thinking' process is displayed in collapsible sections when available
+"""
+
 import argparse
 import copy
 import os
@@ -15,6 +40,7 @@ import torch
 from transformers import (
     AutoProcessor,
     Glm4vForConditionalGeneration,
+    Glm4vMoeForConditionalGeneration,
     TextIteratorStreamer,
 )
 
@@ -30,7 +56,7 @@ parser.add_argument("--share", action="store_true", help="Enable gradio sharing"
 parser.add_argument("--mcp_server", action="store_true", help="Enable mcp service")
 args = parser.parse_args()
 
-MODEL_PATH = "THUDM/GLM-4.1V-9B-Thinking"
+MODEL_PATH = "zai-org/GLM-4.1V-9B-Thinking"
 stop_generation = False
 processor = None
 model = None
@@ -38,13 +64,15 @@ model = None
 
 def load_model():
     global processor, model
-    processor = AutoProcessor.from_pretrained(MODEL_PATH, use_fast=True)
-    model = Glm4vForConditionalGeneration.from_pretrained(
-        MODEL_PATH,
-        torch_dtype=torch.bfloat16,
-        device_map="auto",
-        attn_implementation="sdpa",
-    )
+    processor = AutoProcessor.from_pretrained(MODEL_PATH)
+    if "GLM-4.5V" in MODEL_PATH:
+        model = Glm4vMoeForConditionalGeneration.from_pretrained(
+            MODEL_PATH, torch_dtype="auto", device_map="auto"
+        )
+    else:
+        model = Glm4vForConditionalGeneration.from_pretrained(
+            MODEL_PATH, torch_dtype="auto", device_map="auto"
+        )
 
 
 class GLM4VModel:
@@ -180,9 +208,8 @@ class GLM4VModel:
             add_generation_prompt=True,
             return_dict=True,
             return_tensors="pt",
-            padding=True,
         ).to(model.device)
-
+        inputs.pop("token_type_ids", None)
         streamer = TextIteratorStreamer(
             processor.tokenizer, skip_prompt=True, skip_special_tokens=False
         )

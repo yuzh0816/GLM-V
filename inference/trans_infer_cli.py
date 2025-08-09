@@ -1,5 +1,5 @@
 """
-A command-line interface for chatting with GLM-4.1V-9B-Thinkng model supporting images and videos.
+A command-line interface for chatting with GLM-4.1V-9B-Thinking and GLM-4.5V model supporting images and videos.
 
 Examples:
     # Text-only chat
@@ -23,8 +23,11 @@ Notes:
 import argparse
 import re
 
-import torch
-from transformers import AutoProcessor, Glm4vForConditionalGeneration
+from transformers import (
+    AutoProcessor,
+    Glm4vForConditionalGeneration,
+    Glm4vMoeForConditionalGeneration,
+)
 
 
 def build_content(image_paths, video_path, text):
@@ -40,19 +43,28 @@ def build_content(image_paths, video_path, text):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_path", type=str, default="THUDM/GLM-4.1V-9B-Thinking")
+    parser.add_argument(
+        "--model_path", type=str, default="zai-org/GLM-4.1V-9B-Thinking"
+    )
     parser.add_argument("--image_paths", type=str, nargs="*", default=None)
     parser.add_argument("--video_path", type=str, default=None)
     parser.add_argument("--max_tokens", type=int, default=8192)
     parser.add_argument("--temperature", type=float, default=1.0)
-    parser.add_argument("--repetition_penalty", type=float, default=1.0)
-    parser.add_argument("--top_k", type=int, default=2)
+    parser.add_argument("--repetition_penalty", type=float, default=1.1)
+    parser.add_argument("--top_p", type=float, default=0.00001)
+    parser.add_argument("--top_k", type=int, default=1)
 
     args = parser.parse_args()
-    processor = AutoProcessor.from_pretrained(args.model_path, use_fast=True)
-    model = Glm4vForConditionalGeneration.from_pretrained(
-        args.model_path, torch_dtype=torch.bfloat16, device_map="cuda:0"
-    )
+    processor = AutoProcessor.from_pretrained(args.model_path)
+    if "GLM-4.5V" in args.model_path:
+        model = Glm4vMoeForConditionalGeneration.from_pretrained(
+            args.model_path, torch_dtype="auto", device_map="auto"
+        )
+    else:
+        model = Glm4vForConditionalGeneration.from_pretrained(
+            args.model_path, torch_dtype="auto", device_map="auto"
+        )
+
     messages = []
     first_turn = True
     if args.image_paths is not None and args.video_path is not None:
@@ -76,14 +88,15 @@ def main():
             add_generation_prompt=True,
             return_dict=True,
             return_tensors="pt",
-            padding=True,
         ).to(model.device)
+        inputs.pop("token_type_ids", None)
         output = model.generate(
             **inputs,
             max_new_tokens=args.max_tokens,
             repetition_penalty=args.repetition_penalty,
             do_sample=args.temperature > 0,
             top_k=args.top_k,
+            top_p=args.top_p,
             temperature=args.temperature if args.temperature > 0 else None,
         )
         raw = processor.decode(

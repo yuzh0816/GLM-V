@@ -59,7 +59,7 @@ class RobustInference:
             return_tensors="pt",
             padding=True,
         ).to(self.model.device)
-
+        inputs.pop("token_type_ids", None)
         input_length = inputs["input_ids"].shape[1]
 
         first_generated_ids = self.model.generate(
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_path",
         type=str,
-        default="THUDM/GLM-4.1V-9B-Thinking",
+        default="zai-org/GLM-4.1V-9B-Thinking",
         help="Model path",
     )
     parser.add_argument("--video_path", type=str, required=True, help="Video file path")
