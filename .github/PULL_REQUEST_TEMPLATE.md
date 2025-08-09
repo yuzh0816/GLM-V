@@ -28,10 +28,9 @@ If your code complies with the standards, you should not see any errors.
 + Follow **PEP8** naming conventions strictly, and use underscores to separate words. Avoid meaningless names such as
   `a`, `b`, `c`.
 
-
 ## For glmv-reward Contributors
 
-Before PR, Please run: 
+Before PR, Please run:
 
 ```bash
 cd glmv-reward/

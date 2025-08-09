@@ -399,7 +399,7 @@ def parse_web_response(response):
     return {"thought": thought, "action": action, "memory": memory}
 
 
-def call_openai_api(messages, client, model="GLM-4.1V-Thinking-FlashX"):
+def call_openai_api(messages, client, model="GLM-4.5V"):
     response = client.chat.completions.create(
         model=model,
         messages=messages,
@@ -428,7 +428,7 @@ def main():
     parser.add_argument(
         "--api-key", default="dummy", help="API key (use 'dummy' for local vLLM)"
     )
-    parser.add_argument("--model", default="GLM-4.1V-9B-Thinking", help="Model name")
+    parser.add_argument("--model", default="GLM-4.5V", help="Model name")
     parser.add_argument("--image-path", required=True, help="Path to screenshot image")
     parser.add_argument("--task", required=True, help="Task description")
     parser.add_argument("--history", default="[]", help="JSON string of history")
