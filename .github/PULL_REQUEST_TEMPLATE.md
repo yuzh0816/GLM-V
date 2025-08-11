@@ -27,3 +27,14 @@ If your code complies with the standards, you should not see any errors.
 + Please use **English** for naming; do not use Pinyin or other languages. All comments should also be in English.
 + Follow **PEP8** naming conventions strictly, and use underscores to separate words. Avoid meaningless names such as
   `a`, `b`, `c`.
+
+## For glmv-reward Contributors
+
+Before PR, Please run:
+
+```bash
+cd glmv-reward/
+uv sync
+uv run poe lint
+uv run poe typecheck
+```
