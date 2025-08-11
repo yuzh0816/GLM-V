@@ -8,7 +8,7 @@
 <p align="center">
     👋 Join our <a href="resources/WECHAT.md" target="_blank">WeChat</a> and <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a> communities.
     <br>
-    📖 Check out the <a href="https://arxiv.org/abs/2507.01006" target="_blank">paper</a>.
+    📖 Check out the <a href="resources/GLM_4_5V_technical_report_0811_2030.pdf" target="_blank">paper</a>.
     <br>
     📍 Access the GLM-V series models via API on the <a href="https://www.bigmodel.cn">ZhipuAI Open Platform</a>.
 </p>
