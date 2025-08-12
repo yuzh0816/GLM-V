@@ -2,7 +2,7 @@ default_install_hook_types:
   - pre-commit
   - commit-msg
 
-exclude: '(^example/)|(^glmv_reward/configs/full_config\.yaml$)'
+exclude: '(^examples/)|(^glmv_reward/configs/full_config\.yaml$)'
 
 default_stages:
   - pre-commit # Run locally

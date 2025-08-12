@@ -103,6 +103,11 @@ python3 -m sglang.launch_server --model-path zai-org/GLM-4.5V \
 - 使用`vLLM`和`SGLang`时，发送请求时默认启用思考模式。如果要禁用思考开关，需要添加
   `extra_body={"chat_template_kwargs": {"enable_thinking": False}}`参数。
 
+> 特殊标记 `<|begin_of_box|>` 和 `<|end_of_box|>` 在响应中用于标记图像中答案的边界框。  
+边界框由四个数字表示，例如 `[x1, y1, x2, y2]`，其中 `(x1, y1)` 是左上角坐标，`(x2, y2)` 是右下角坐标。  
+括号样式可能不同（[]、[[]]、()、<> 等），但含义相同：用于包裹边界框的坐标。  
+这些坐标是相对值，范围在 0 到 1000 之间，并且是相对于图像尺寸归一化的。
+
 ## 模型微调
 
 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) 已经支持 GLM-4.5V & GLM-4.1V-9B-Thinking 模型的微调。以下是构建数据集的说明，这是一个使用了两张图片的数据集。你需要将数据集整理为 `finetune.json`, 这里是一个 GLM-4.1V-9B 微调的例子。
@@ -190,8 +195,9 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
 2. GLM-4.5V的纯文本问答能力仍有较大提升空间，在这次模型研发中我们主要关注视觉多模态场景，后续将同步提升纯文本能力。
 3. 一些情况下仍然存在过度思考甚至复读的问题，尤其是复杂prompt场景。
 4. 一些情况下模型会在最后复述一遍答案。
+5. 存在一些感知问题，在数数、识别具体人物等方面有提升空间。
 
-感谢大家的耐心和包容，也非常欢迎在issue区给我们提意见和建议，我们会尽可能回复并修正！
+感谢大家的耐心和包容，也非常欢迎在 issue 区给我们提意见和建议，我们会尽可能回复并修正！
 
 ## 引用论文
 
@@ -199,12 +205,12 @@ GLM-4.1V-9B-Thinking 通过引入「思维链」（Chain-of-Thought）推理机�
 
 ```bibtex
 @misc{glmvteam2025glm41vthinkingversatilemultimodalreasoning,
-      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning}, 
+      title={GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning},
       author={GLM-V Team and Wenyi Hong and Wenmeng Yu and Xiaotao Gu and Guo Wang and Guobing Gan and Haomiao Tang and Jiale Cheng and Ji Qi and Junhui Ji and Lihang Pan and Shuaiqi Duan and Weihan Wang and Yan Wang and Yean Cheng and Zehai He and Zhe Su and Zhen Yang and Ziyang Pan and Aohan Zeng and Baoxu Wang and Boyan Shi and Changyu Pang and Chenhui Zhang and Da Yin and Fan Yang and Guoqing Chen and Jiazheng Xu and Jiali Chen and Jing Chen and Jinhao Chen and Jinghao Lin and Jinjiang Wang and Junjie Chen and Leqi Lei and Letian Gong and Leyi Pan and Mingzhi Zhang and Qinkai Zheng and Sheng Yang and Shi Zhong and Shiyu Huang and Shuyuan Zhao and Siyan Xue and Shangqin Tu and Shengbiao Meng and Tianshu Zhang and Tianwei Luo and Tianxiang Hao and Wenkai Li and Wei Jia and Xin Lyu and Xuancheng Huang and Yanling Wang and Yadong Xue and Yanfeng Wang and Yifan An and Yifan Du and Yiming Shi and Yiheng Huang and Yilin Niu and Yuan Wang and Yuanchang Yue and Yuchen Li and Yutao Zhang and Yuxuan Zhang and Zhanxiao Du and Zhenyu Hou and Zhao Xue and Zhengxiao Du and Zihan Wang and Peng Zhang and Debing Liu and Bin Xu and Juanzi Li and Minlie Huang and Yuxiao Dong and Jie Tang},
       year={2025},
       eprint={2507.01006},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2507.01006}, 
+      url={https://arxiv.org/abs/2507.01006},
 }
 ```

@@ -105,6 +105,8 @@ Notes:
 - When using `vLLM` and `SGLang`, thinking mode is enabled by default. To disable the thinking switch, add:  
   `extra_body={"chat_template_kwargs": {"enable_thinking": False}}`
 
+> The special tokens `<|begin_of_box|>` and `<|end_of_box|>` in the response mark the answer’s bounding box in the image. The bounding box is given as four numbers — for example `[x1, y1, x2, y2]`, where `(x1, y1)` is the top-left corner and `(x2, y2`)` is the bottom-right corner. The bracket style may vary ([], [[]], (), <>, etc.), but the meaning is the same: it encloses the coordinates of the box. These coordinates are relative values between 0 and 1000, normalized to the image size.
+
 ## Model Fine-tuning
 
 [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) already supports fine-tuning for GLM-4.5V & GLM-4.1V-9B-Thinking models. Below is an example of dataset construction using two images. You should organize your dataset into `finetune.json` in the following format, This is an example for fine-tuning GLM-4.1V-9B.
@@ -140,8 +142,8 @@ Notes:
 
 1. The content inside `<think> ... </think>` will **not** be stored as conversation history or in fine-tuning data.
 2. The `<image>` tag will be replaced with the corresponding image information.
-3.	For the GLM-4.5V model, the <answer> and </answer> tags should be removed.
-   
+3. For the GLM-4.5V model, the <answer> and </answer> tags should be removed.
+  
 Then, you can fine-tune following the standard LLaMA-Factory procedure.
 
 ## Model Overview
@@ -192,6 +194,7 @@ However, some limitations remain:
 2. Pure text Q&A capabilities still have room for improvement, as this release focused primarily on multimodal scenarios.
 3. In some cases, the model may overthink or repeat content, especially for complex prompts.
 4. Occasionally, the model may restate the answer at the end.
+5. There are some perception issues, with room for improvement in tasks such as counting and identifying specific individuals.
 
 We welcome feedback in the issue section and will address problems as quickly as possible.
 

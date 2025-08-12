@@ -2,10 +2,12 @@ import re
 import time
 from dataclasses import dataclass
 
+
 @dataclass
 class StreamingResult:
     output: str
     html_detected: bool
+
 
 class HTMLDetector:
     MAX_BUFFER_CHUNKS = 5
@@ -21,21 +23,25 @@ class HTMLDetector:
             re.compile(r"^<!DOCTYPE\s+html", re.IGNORECASE),
             re.compile(r"^<html[\s>]", re.IGNORECASE),
             re.compile(r"^<head[\s>]", re.IGNORECASE),
-            re.compile(r"^<bod"
-                       r"y[\s>]", re.IGNORECASE),
+            re.compile(
+                r"^<bod"
+                r"y[\s>]",
+                re.IGNORECASE,
+            ),
             re.compile(r"^<div[\s>]", re.IGNORECASE),
             re.compile(r"^<section[\s>]", re.IGNORECASE),
             re.compile(r"^<article[\s>]", re.IGNORECASE),
             re.compile(r"^<main[\s>]", re.IGNORECASE),
             re.compile(r"^<header[\s>]", re.IGNORECASE),
             re.compile(r"^<footer[\s>]", re.IGNORECASE),
-            re.compile(r"^<nav[\s>]", re.IGNORECASE)
+            re.compile(r"^<nav[\s>]", re.IGNORECASE),
         ]
 
-        self.html_structure_pattern = re.compile(r"<[a-zA-Z][^>]*>.*</[a-zA-Z]+>", re.DOTALL)
+        self.html_structure_pattern = re.compile(
+            r"<[a-zA-Z][^>]*>.*</[a-zA-Z]+>", re.DOTALL
+        )
         self.html_features_pattern = re.compile(
-            r"(?:<!DOCTYPE|<html|<head|<body|<div|class=|id=|href=|src=)",
-            re.IGNORECASE
+            r"(?:<!DOCTYPE|<html|<head|<body|<div|class=|id=|href=|src=)", re.IGNORECASE
         )
 
     def count_occurrences(self, text: str, substring: str) -> int:
@@ -55,7 +61,7 @@ class HTMLDetector:
             r"<header\b",
             r"<footer\b",
             r"<nav\b",
-            r"<[a-zA-Z]+"
+            r"<[a-zA-Z]+",
         ]
         for pat in html_patterns:
             for match in re.finditer(pat, text, re.IGNORECASE):
@@ -80,7 +86,6 @@ class HTMLDetector:
         actual_newlines = self.count_occurrences(text, "\n")
 
         if self.streaming_mode:
-
             if has_html_features or has_tag_like_structure:
                 return True
 
@@ -95,7 +100,10 @@ class HTMLDetector:
             self.buffer = ""
             return StreamingResult(output, False)
 
-        if not self.html_detected and len(self.buffer) + len(chunk) > self.detection_threshold:
+        if (
+            not self.html_detected
+            and len(self.buffer) + len(chunk) > self.detection_threshold
+        ):
             output = self.buffer + chunk
             self.buffer = ""
             return StreamingResult(output, False)
@@ -120,7 +128,11 @@ class HTMLDetector:
                 return StreamingResult(output, True)
             else:
                 # 未检测到HTML，提取可以安全输出的部分
-                self.buffer = self.buffer.replace("\\n", "\n").replace("\\\"", "\"").replace("\\'", "'")
+                self.buffer = (
+                    self.buffer.replace("\\n", "\n")
+                    .replace('\\"', '"')
+                    .replace("\\'", "'")
+                )
                 if self.buffer.endswith("\\"):
                     output = self.buffer[:-1]
                     self.buffer = "\\"
@@ -131,7 +143,9 @@ class HTMLDetector:
                     return StreamingResult(output, False)
         else:
             self.buffer += chunk
-            self.buffer = self.buffer.replace("\\n", "\n").replace("\\\"", "\"").replace("\\'", "'")
+            self.buffer = (
+                self.buffer.replace("\\n", "\n").replace('\\"', '"').replace("\\'", "'")
+            )
             if self.buffer.endswith("\\"):
                 output = self.buffer[:-1]
                 self.buffer = "\\"
@@ -161,10 +175,10 @@ class HTMLDetector:
         self.chunk_count = 0
         return result
 
+
 if __name__ == "__main__":
     print("=== Streaming HTML Detection Demo ===")
     print("Simulating AI model streaming HTML content output...")
-
 
     detector = HTMLDetector(streaming_mode=True)
     html_stream = [
@@ -191,7 +205,7 @@ if __name__ == "__main__":
         "\n    </ul>",
         "\n  </div>",
         "\n</body>",
-        "\n</html>"
+        "\n</html>",
     ]
 
     print("🚀 Starting streaming output...")
@@ -206,7 +220,10 @@ if __name__ == "__main__":
 
         # If HTML is detected, show a prompt
         if result.html_detected:
-            print(f"\nBlock {i + 1} detected HTML, markdown code block prefix added", flush=True)
+            print(
+                f"\nBlock {i + 1} detected HTML, markdown code block prefix added",
+                flush=True,
+            )
 
         time.sleep(0.15)
 
@@ -233,22 +250,22 @@ if __name__ == "__main__":
                     <p class="content">This is a paragraph</p>
                 </body>
                 </html>""",
-            "expected": True
+            "expected": True,
         },
         {
             "name": "Plain Text Content",
             "content": "This is a piece of normal text, without any HTML tags. Here are some special characters: < > &",
-            "expected": False
+            "expected": False,
         },
         {
             "name": "Fragment with HTML-like Features",
             "content": 'This is not complete HTML, but has a <div class="test"> tag and attribute',
-            "expected": False
+            "expected": False,
         },
         {
             "name": "HTML Inside Code Block",
             "content": "```html\n<div>This HTML is inside a code block</div>\n```",
-            "expected": False
+            "expected": False,
         },
         {
             "name": "HTML Fragment with Multiple Line Breaks",
@@ -257,13 +274,13 @@ if __name__ == "__main__":
                     <p>Second line</p>
                     <p>Third line</p>
                 </div>""",
-            "expected": True
+            "expected": True,
         },
         {
             "name": "HTML with Only Opening Tags",
             "content": "<html><head><body><div>",
-            "expected": False
-        }
+            "expected": False,
+        },
     ]
 
     for i, test in enumerate(test_cases, 1):
