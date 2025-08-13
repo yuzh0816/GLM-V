@@ -49,8 +49,6 @@
 
 ## 快速上手
 
-以下步骤适用于英伟达GPU，如果你使用 Ascend NPU 进行推理，请查看 [这里](https://modelers.cn/models/Models_Ecosystem/GLM-4.5V)
-
 ### 环境安装
 
 对于`SGLang` 和 `transformers`，请按照`requirements.txt` 中的依赖进行安装。

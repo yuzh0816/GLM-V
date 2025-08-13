@@ -49,8 +49,6 @@ Through our open-source work, we aim to explore the technological frontier toget
 
 ## Quick Start
 
-The following steps apply to NVIDIA GPUs. For inference on Ascend NPUs, see [here](https://modelers.cn/models/Models_Ecosystem/GLM-4.5V).
-
 ### Environment Installation
 
 For `SGLang` and `transformers`:
