@@ -8,7 +8,7 @@
 <p align="center">
     👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">微信</a> 和 <a href="https://discord.com/invite/8cnQKdAprg" target="_blank">Discord</a> 社区。
     <br>
-    📖 查看 <a href="resources/GLM-4.5V_technical_report.pdf" target="_blank">论文</a> 。
+    📖 查看 <a href="https://arxiv.org/abs/2507.01006" target="_blank">论文</a> 。
     <br>
     📍<a href="https://chat.z.ai/" target="_blank">在线体验</a> ，或使用 <a href="https://docs.z.ai/guides/vlm/glm-4.5v" target="_blank">API</a>。
 </p>
