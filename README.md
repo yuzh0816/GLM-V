@@ -44,7 +44,23 @@ Through our open-source work, we aim to explore the technological frontier toget
 
 ## Examples
 
+### Grounding
+
+GLM-4.5V equips precise grounding capabilities. Given a prompt that requests the location of a specific object, GLM-4.5V is able to reasoning step-by-step and identify the bounding boxes of the target object. The query prompt supports complex descriptions of the target object as well as specified output formats, for example:
+>
+> - Help me to locate <expr> in the image and give me its bounding boxes.
+> - Please pinpoint the bounding box [[x1,y1,x2,y2], …] in the image as per the given description. <expr>
+
+Here, `<expr>` is the description of the target object. The output bounding box is a quadruple $$[x_1,y_1,x_2,y_2]$$ composed of the coordinates of the top-left and bottom-right corners, where each value is normalized by the image width (for x) or height (for y) and scaled by 1000.
+
+In the response, the special tokens `<|begin_of_box|>` and `<|end_of_box|>` are used to mark the image bounding box in the answer. The bracket style may vary ([], [[]], (), <>, etc.), but the meaning is the same: to enclose the coordinates of the box.
+
+### GUI Agent
+
 - `examples/gui-agent`: Demonstrates prompt construction and output handling for GUI Agents, including strategies for mobile, PC, and web. Prompt templates differ between GLM-4.1V and GLM-4.5V.
+
+### Quick Demo
+
 - `examples/vlm-helper`: A desktop assistant for GLM multimodal models (mainly GLM-4.5V, compatible with GLM-4.1V), supporting text, images, videos, PDFs, PPTs, and more. Connects to the GLM multimodal API for intelligent services across scenarios. Download the [installer](https://huggingface.co/spaces/zai-org/GLM-4.5V-Demo-App) or [build from source](examples/vlm-helper/README.md).
 
 ## Quick Start
@@ -102,8 +118,6 @@ Notes:
   We also recommend increasing `SGLANG_VLM_CACHE_SIZE_MB` (e.g., `1024`) to provide sufficient cache space for video understanding.
 - When using `vLLM` and `SGLang`, thinking mode is enabled by default. To disable the thinking switch, add:  
   `extra_body={"chat_template_kwargs": {"enable_thinking": False}}`
-
-> The special tokens `<|begin_of_box|>` and `<|end_of_box|>` in the response mark the answer’s bounding box in the image. The bounding box is given as four numbers — for example `[x1, y1, x2, y2]`, where `(x1, y1)` is the top-left corner and `(x2, y2`)` is the bottom-right corner. The bracket style may vary ([], [[]], (), <>, etc.), but the meaning is the same: it encloses the coordinates of the box. These coordinates are relative values between 0 and 1000, normalized to the image size.
 
 ## Model Fine-tuning
 

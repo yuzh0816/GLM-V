@@ -41,11 +41,26 @@
 | GLM-4.1V-9B-Thinking | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-4.1V-9B-Thinking)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Thinking) | 推理模型   |
 | GLM-4.1V-9B-Base     | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-4.1V-9B-Base)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-4.1V-9B-Base)         | 基座模型   |
 
-## 案例
+## 示例
 
-- `examples/gui-agent`: 该脚本展现了用于 GUI Agent时对于模型返回的处理和构建提示词方案, 包含手机，电脑和网页端的策略，可集成到您的应用框架。请注意，GLM-4.1V 和 GLM-4.5V 的提示词不同。
+### 定位（Grounding）
 
-- `examples/vlm-helper`: 一个面向 GLM 系列多模态模型（以GLM-4.5V 为主，兼容 GLM-4.1V）的桌面助手，支持文字、图片、视频、PDF、PPT 等多种格式的对话交互。通过与 GLM 多模态 API 对接，实现从多场景智能服务。可直接下载 [安装包](https://huggingface.co/spaces/zai-org/GLM-4.5V-Demo-App)，或者从源头构建，请查看 [介绍](examples/vlm-helper/README_zh.md)。
+GLM-4.5V 具备精确的定位能力。给定一个请求定位特定物体的提示词，GLM-4.5V 能够逐步推理并识别目标物体的边界框。查询提示支持对目标物体的复杂描述，以及指定输出格式，例如：
+>
+> - 帮我在图像中找到 <expr> 并给出它的边界框。
+> - 请根据给定的描述 <expr>，标出图像中的边界框 [[x1,y1,x2,y2], …]。
+
+其中 `<expr>` 是对目标物体的描述。输出的边界框是一个四元组 $$[x_1,y_1,x_2,y_2]$$，由左上角和右下角的坐标组成，其中每个值按图像宽度（x 坐标）或高度（y 坐标）归一化，并乘以 1000 进行缩放。
+
+在响应中，特殊标记 `<|begin_of_box|>` 和 `<|end_of_box|>` 用于标记答案中的图像边界框。括号的样式可能不同（[], [[]], (), <>, 等），但含义相同：括住框的坐标。
+
+### GUI Agent
+
+- `examples/gui-agent`：演示了 GUI Agent 的提示构建和输出处理，包括针对移动端、PC 和网页的策略。提示模板在 GLM-4.1V 和 GLM-4.5V 之间有所不同。
+
+### APP实例
+
+- `examples/vlm-helper`：一个面向 GLM 多模态模型（主要是 GLM-4.5V，兼容 GLM-4.1V）的桌面助手，支持文本、图片、视频、PDF、PPT 等多种格式。通过连接 GLM 多模态 API，在多场景下提供智能服务。可[下载安装包](https://huggingface.co/spaces/zai-org/GLM-4.5V-Demo-App)或[从源码构建](examples/vlm-helper/README.md)。
 
 ## 快速上手
 
@@ -100,11 +115,6 @@ python3 -m sglang.launch_server --model-path zai-org/GLM-4.5V \
 - `SGLang` 框架建议使用 `FA3` 注意力后端，支持更高的推理性能和更低的显存占用，可添加 `--attention-backend fa3 --mm-attention-backend fa3 --enable-torch-compile`开启。在部分较大的视频推理时，不启用`FA3` 注意力后端会导致显存溢出。同时，我们建议设置更大的`SGLANG_VLM_CACHE_SIZE_MB`，以提供足够的缓存空间用于视频理解。例如`1024`。
 - 使用`vLLM`和`SGLang`时，发送请求时默认启用思考模式。如果要禁用思考开关，需要添加
   `extra_body={"chat_template_kwargs": {"enable_thinking": False}}`参数。
-
-> 特殊标记 `<|begin_of_box|>` 和 `<|end_of_box|>` 在响应中用于标记图像中答案的边界框。  
-边界框由四个数字表示，例如 `[x1, y1, x2, y2]`，其中 `(x1, y1)` 是左上角坐标，`(x2, y2)` 是右下角坐标。  
-括号样式可能不同（[]、[[]]、()、<> 等），但含义相同：用于包裹边界框的坐标。  
-这些坐标是相对值，范围在 0 到 1000 之间，并且是相对于图像尺寸归一化的。
 
 ## 模型微调
 
