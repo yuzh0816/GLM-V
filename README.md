@@ -67,18 +67,11 @@ In the response, the special tokens `<|begin_of_box|>` and `<|end_of_box|>` are 
 
 ### Environment Installation
 
-For `SGLang` and `transformers`:
-
 ```bash
 pip install -r requirements.txt
 ```
 
-For `vLLM`:
-
-```bash
-pip install -U vllm --pre --extra-index-url https://wheels.vllm.ai/nightly
-pip install transformers-v4.55.0-GLM-4.5V-preview
-```
++ vLLM and SGLang dependencies may conflict, so it is recommended to install only one of them in each environment.
 
 ### transformers
 

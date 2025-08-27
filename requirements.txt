@@ -1,9 +1,10 @@
 torchvision>=0.23.0
 transformers-v4.55.0-GLM-4.5V-preview
-accelerate>=1.10.0
-gradio>=5.42.0
+accelerate>=1.11.0
+gradio>=5.44.0
 pre-commit>=4.2.0
 PyMuPDF>=1.26.3
 av>=15.0.0
-spaces>=0.40.0
-sglang>=0.5.0rc1
+spaces>=0.40.1
+sglang>=0.5.1.post2
+vllm>=0.10.1.1

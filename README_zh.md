@@ -66,18 +66,13 @@ GLM-4.5V 具备精确的定位能力。给定一个请求定位特定物体的�
 
 ### 环境安装
 
-对于`SGLang` 和 `transformers`，请按照`requirements.txt` 中的依赖进行安装。
+请按照 `requirements.txt` 中的自行安装。
 
-```shell
+```bash
 pip install -r requirements.txt
 ```
 
-对于`vLLM`，请使用以下命令安装：
-
-```shell
-pip install -U vllm --pre --extra-index-url https://wheels.vllm.ai/nightly
-pip install transformers-v4.55.0-GLM-4.5V-preview
-```
++ vLLM 和 SGLang 依赖可能冲突，建议每个环境中只安装其中一个。
 
 ### transformers
 
