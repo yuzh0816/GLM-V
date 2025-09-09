@@ -1,5 +1,5 @@
 ## AMD GPU Installation and Testing Guide
-### Please follow the steps here to install and run GLM models on AMD MI300X GPU.
+### Please follow the steps here to install and run GLM-V models on AMD MI300X GPU.
 ### Step By Step Guide
 #### Step 1
 Launch the Rocm-vllm docker:
