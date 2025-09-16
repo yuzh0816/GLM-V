@@ -1,10 +1,12 @@
 torchvision>=0.23.0
-transformers-v4.55.0-GLM-4.5V-preview
 accelerate>=1.11.0
 gradio>=5.44.0
 pre-commit>=4.2.0
 PyMuPDF>=1.26.3
 av>=15.0.0
 spaces>=0.40.1
-sglang>=0.5.1.post2
-vllm>=0.10.1.1
+transformers>=4.56.1
+
+# sglang>=0.5.2  # using with sglang to infer
+# vllm>=0.10.2   # using with vllm to infer
+# not recommended to install sglang and vllm in the same environment
